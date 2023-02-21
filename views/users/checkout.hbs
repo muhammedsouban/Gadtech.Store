@@ -1,0 +1,363 @@
+<div style="background-color: white;">
+    <div class="breadcrumb-section breadcrumb-bg-color--golden">
+        <div class="breadcrumb-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h3 class="breadcrumb-title">Checkout</h3>
+                        <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                            <nav aria-label="breadcrumb">
+                                <ul>
+                                    <li><a href="index.html">Home</a></li>
+                                    <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                    <li class="active" aria-current="page">Checkout</li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- ...:::: End Breadcrumb Section:::... -->
+
+    <!-- ...:::: Start Checkout Section:::... -->
+    <div class="checkout-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-6">
+
+                </div>
+                <!-- User Quick Action Form -->
+                <div class="col-6 ">
+
+                </div>
+                <!-- User Quick Action Form -->
+            </div>
+            <!-- Start User Details Checkout Form -->
+            <div class="checkout_form" data-aos="fade-up" data-aos-delay="400">
+                <div class="row">
+                    <div class="col-lg-6 col-md-6">
+                        <form action="#">
+                            <h3>Billing Details</h3>
+                            <div class="row">
+                                {{#each Address}}
+
+                                <div class="col-md-6">
+                                    <div class="bg-white card addresses-item mb-4 border shadow">
+                                        <div class=" p-4">
+                                            <div class="media">
+                                                <div class="mr-3"><i class="icofont-ui-home icofont-3x"></i>
+                                                </div>
+
+                                                <div class="media-body">
+                                                    <p class="text-black">{{Name}} &nbsp &nbsp
+                                                        &nbsp<b>{{Number}}</b>
+                                                    </p>
+                                                    <p>{{City}}, {{State}}, {{Country}}</p>
+                                                    <p>{{address}} - {{Pincode}} </p>
+
+                                                    <label class="checkbox-default">
+                                                        <input type="radio" name="address" value="{{_id}}">
+                                                        <span>Ship to this address?</span>
+                                                    </label>
+                                                </div>
+
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{/each}}
+                                <input type="hidden" class="form-control" id="userId" name="userId" value="{{User}}">
+                                <input type="hidden" class="form-control" id="userName" name="userName"
+                                    value="{{checkout.name}}">
+                                <div class="col-12">
+                                    <div class="order_button pt-3 ">
+                                        <a href="/Add-address" class="col-12 btn btn-md btn-black-default-hover">Add New
+                                            Address</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+
+                    <div class="col-lg-6 col-md-6">
+                        <h1 class="h3 mb-5">Coupon</h1>
+
+
+                        <form action="" method="post" class="needs-validation" method="post" novalidate>
+                            <div id="checkout_coupon" class="checkout_coupon mb-5">
+                                <h3 hidden class="fw-normal text-center my-4" id="totalPricecheckout"> {{subtotal}}</h3>
+                                <input type="hidden" id="actualAmount" value="{{subtotal}}">
+
+                                <span id="error-message" style="color:red"> </span>
+                                <input type="hidden" name="couponAmount" id="couponAmount">
+
+                                <div class="checkout_info">
+
+                                    <input placeholder="Coupon code" type="text" id="promocard" name="couponcode">
+                                    <a onclick="redeemCoupon()"><button class="btn btn-md btn-black-default-hover"
+                                            type="button">Apply
+                                            coupon</button></a>
+
+                                </div>
+                            </div>
+                        </form>
+                        <form action="#">
+                            <h3>Your order</h3>
+                            <div class="order_table table-responsive">
+                                <table>
+
+                                    <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {{#each CartItems}}
+                                        <tr>
+                                            <td> {{productname}} <strong> × {{quantity}}</strong></td>
+                                            <td> ₹{{price}} </td>
+                                        </tr>
+                                        {{/each}}
+
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>Cart Subtotal</th>
+                                            <td>₹{{subtotal}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Discounted Price</th>
+                                            <td><strong id="coupon"></strong></td>
+                                        </tr>
+                                        <tr class="order_total">
+                                            <th>Order Total</th>
+                                            <input type="hidden" name="" id="total" value="{{subtotal}}">
+
+                                            <td>₹<strong id="last-amount">{{subtotal}}</strong></td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+
+                            <div class="container">
+                                <h1 class="h3 mb-5">Payment</h1>
+                                <div class="row">
+
+                                    <!-- Left -->
+                                    <div class="col-lg-12">
+                                        <div class="accordion-item mb-3 border">
+                                            <h2
+                                                class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                                                <div class="form-check w-100 collapsed">
+                                                    <input class="form-check-input" type="radio" value="3"
+                                                        name="payment_method">
+                                                    <label class="form-check-label pt-1">
+                                                        Cash On Delivery
+                                                    </label>
+                                                </div>
+                                            </h2>
+
+                                        </div>
+                                        <div class="accordion" id="accordionPayment">
+                                            <!-- Credit card -->
+                                            <div class="accordion-item mb-3">
+                                                <h2
+                                                    class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                                                    <div class="form-check w-100 collapsed" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapseCC" aria-expanded="false">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_method" value="2">
+                                                        <label class="form-check-label pt-1" for="payment2">
+                                                            Credit Card
+                                                        </label>
+                                                    </div>
+                                                    <span>
+                                                        <svg width="34" height="25" xmlns="http://www.w3.org/2000/svg">
+                                                            <g fill-rule="nonzero" fill="#333840">
+                                                                <path
+                                                                    d="M29.418 2.083c1.16 0 2.101.933 2.101 2.084v16.666c0 1.15-.94 2.084-2.1 2.084H4.202A2.092 2.092 0 0 1 2.1 20.833V4.167c0-1.15.941-2.084 2.102-2.084h25.215ZM4.203 0C1.882 0 0 1.865 0 4.167v16.666C0 23.135 1.882 25 4.203 25h25.215c2.321 0 4.203-1.865 4.203-4.167V4.167C33.62 1.865 31.739 0 29.418 0H4.203Z">
+                                                                </path>
+                                                                <path
+                                                                    d="M4.203 7.292c0-.576.47-1.042 1.05-1.042h4.203c.58 0 1.05.466 1.05 1.042v2.083c0 .575-.47 1.042-1.05 1.042H5.253c-.58 0-1.05-.467-1.05-1.042V7.292Zm0 6.25c0-.576.47-1.042 1.05-1.042H15.76c.58 0 1.05.466 1.05 1.042 0 .575-.47 1.041-1.05 1.041H5.253c-.58 0-1.05-.466-1.05-1.041Zm0 4.166c0-.575.47-1.041 1.05-1.041h2.102c.58 0 1.05.466 1.05 1.041 0 .576-.47 1.042-1.05 1.042H5.253c-.58 0-1.05-.466-1.05-1.042Zm6.303 0c0-.575.47-1.041 1.051-1.041h2.101c.58 0 1.051.466 1.051 1.041 0 .576-.47 1.042-1.05 1.042h-2.102c-.58 0-1.05-.466-1.05-1.042Zm6.304 0c0-.575.47-1.041 1.051-1.041h2.101c.58 0 1.05.466 1.05 1.041 0 .576-.47 1.042-1.05 1.042h-2.101c-.58 0-1.05-.466-1.05-1.042Zm6.304 0c0-.575.47-1.041 1.05-1.041h2.102c.58 0 1.05.466 1.05 1.041 0 .576-.47 1.042-1.05 1.042h-2.101c-.58 0-1.05-.466-1.05-1.042Z">
+                                                                </path>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </h2>
+                                                <div id="collapseCC" class="accordion-collapse collapse "
+                                                    data-bs-parent="#accordionPayment" style="">
+                                                    <div class="accordion-body">
+                                                        <div class="mb-3">
+                                                            <label class="form-label">Card Number</label>
+                                                            <input type="text" class="form-control" placeholder="">
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col-lg-6">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Name on card</label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">Expiry date</label>
+                                                                    <input type="text" class="form-control"
+                                                                        placeholder="MM/YY">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-lg-3">
+                                                                <div class="mb-3">
+                                                                    <label class="form-label">CVV Code</label>
+                                                                    <input type="password" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!-- PayPal -->
+                                            <div class="accordion-item mb-3 border">
+                                                <h2
+                                                    class="h5 px-4 py-3 accordion-header d-flex justify-content-between align-items-center">
+                                                    <div class="form-check w-100 collapsed" data-bs-toggle="collapse"
+                                                        data-bs-target="#collapsePP" aria-expanded="false">
+                                                        <input class="form-check-input" type="radio"
+                                                            name="payment_method" value="1">
+                                                        <label class="form-check-label pt-1" for="payment2">
+                                                            PayPal
+                                                        </label>
+                                                    </div>
+                                                    <span>
+                                                        <svg width="103" height="25" xmlns="http://www.w3.org/2000/svg">
+                                                            <g fill="none" fill-rule="evenodd">
+                                                                <path
+                                                                    d="M8.962 5.857h7.018c3.768 0 5.187 1.907 4.967 4.71-.362 4.627-3.159 7.187-6.87 7.187h-1.872c-.51 0-.852.337-.99 1.25l-.795 5.308c-.052.344-.233.543-.505.57h-4.41c-.414 0-.561-.317-.452-1.003L7.74 6.862c.105-.68.478-1.005 1.221-1.005Z"
+                                                                    fill="#009EE3"></path>
+                                                                <path
+                                                                    d="M39.431 5.542c2.368 0 4.553 1.284 4.254 4.485-.363 3.805-2.4 5.91-5.616 5.919h-2.81c-.404 0-.6.33-.705 1.005l-.543 3.455c-.082.522-.35.779-.745.779h-2.614c-.416 0-.561-.267-.469-.863l2.158-13.846c.106-.68.362-.934.827-.934h6.263Zm-4.257 7.413h2.129c1.331-.051 2.215-.973 2.304-2.636.054-1.027-.64-1.763-1.743-1.757l-2.003.009-.687 4.384Zm15.618 7.17c.239-.217.482-.33.447-.062l-.085.642c-.043.335.089.512.4.512h2.323c.391 0 .581-.157.677-.762l1.432-8.982c.072-.451-.039-.672-.38-.672H53.05c-.23 0-.343.128-.402.48l-.095.552c-.049.288-.18.34-.304.05-.433-1.026-1.538-1.486-3.08-1.45-3.581.074-5.996 2.793-6.255 6.279-.2 2.696 1.732 4.813 4.279 4.813 1.848 0 2.674-.543 3.605-1.395l-.007-.005Zm-1.946-1.382c-1.542 0-2.616-1.23-2.393-2.738.223-1.507 1.665-2.737 3.206-2.737 1.542 0 2.616 1.23 2.394 2.737-.223 1.508-1.664 2.738-3.207 2.738Zm11.685-7.971h-2.355c-.486 0-.683.362-.53.808l2.925 8.561-2.868 4.075c-.241.34-.054.65.284.65h2.647a.81.81 0 0 0 .786-.386l8.993-12.898c.277-.397.147-.814-.308-.814H67.6c-.43 0-.602.17-.848.527l-3.75 5.435-1.676-5.447c-.098-.33-.342-.511-.793-.511h-.002Z"
+                                                                    fill="#113984"></path>
+                                                                <path
+                                                                    d="M79.768 5.542c2.368 0 4.553 1.284 4.254 4.485-.363 3.805-2.4 5.91-5.616 5.919h-2.808c-.404 0-.6.33-.705 1.005l-.543 3.455c-.082.522-.35.779-.745.779h-2.614c-.417 0-.562-.267-.47-.863l2.162-13.85c.107-.68.362-.934.828-.934h6.257v.004Zm-4.257 7.413h2.128c1.332-.051 2.216-.973 2.305-2.636.054-1.027-.64-1.763-1.743-1.757l-2.004.009-.686 4.384Zm15.618 7.17c.239-.217.482-.33.447-.062l-.085.642c-.044.335.089.512.4.512h2.323c.391 0 .581-.157.677-.762l1.431-8.982c.073-.451-.038-.672-.38-.672h-2.55c-.23 0-.343.128-.403.48l-.094.552c-.049.288-.181.34-.304.05-.433-1.026-1.538-1.486-3.08-1.45-3.582.074-5.997 2.793-6.256 6.279-.199 2.696 1.732 4.813 4.28 4.813 1.847 0 2.673-.543 3.604-1.395l-.01-.005Zm-1.944-1.382c-1.542 0-2.616-1.23-2.393-2.738.222-1.507 1.665-2.737 3.206-2.737 1.542 0 2.616 1.23 2.393 2.737-.223 1.508-1.665 2.738-3.206 2.738Zm10.712 2.489h-2.681a.317.317 0 0 1-.328-.362l2.355-14.92a.462.462 0 0 1 .445-.363h2.682a.317.317 0 0 1 .327.362l-2.355 14.92a.462.462 0 0 1-.445.367v-.004Z"
+                                                                    fill="#009EE3"></path>
+                                                                <path
+                                                                    d="M4.572 0h7.026c1.978 0 4.326.063 5.895 1.45 1.049.925 1.6 2.398 1.473 3.985-.432 5.364-3.64 8.37-7.944 8.37H7.558c-.59 0-.98.39-1.147 1.449l-.967 6.159c-.064.399-.236.634-.544.663H.565c-.48 0-.65-.362-.525-1.163L3.156 1.17C3.28.377 3.717 0 4.572 0Z"
+                                                                    fill="#113984"></path>
+                                                                <path
+                                                                    d="m6.513 14.629 1.226-7.767c.107-.68.48-1.007 1.223-1.007h7.018c1.161 0 2.102.181 2.837.516-.705 4.776-3.793 7.428-7.837 7.428H7.522c-.464.002-.805.234-1.01.83Z"
+                                                                    fill="#172C70"></path>
+                                                            </g>
+                                                        </svg>
+                                                    </span>
+                                                </h2>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Right -->
+
+
+
+                                    <div id="methodCod" class="collapse" data-parent="#methodCod">
+                                        <div class="card-body1">
+                                            {{!-- <p>Please send a check to Store Name, Store Street, Store Town, Store
+                                                State
+                                                / County, Store Postcode.</p> --}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="order_button pt-3 ">
+                                    <a class="col-12 btn btn-md btn-black-default-hover" onclick="placeOrder()"
+                                        type="submit">Place
+                                        Order</a>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div> <!-- Start User Details Checkout Form -->
+        </div>
+    </div><!-- ...:::: End Checkout Section:::... -->
+
+    <script>
+        async function placeOrder() {
+
+            const selectedMethod = $("input[type='radio'][name='payment_method']:checked").val();
+            const selectedAdress = $("input[type='radio'][name='address']:checked").val();
+            // if (!selectedAdress || !selectedMethod) {
+            //document.getElementById('error-message').innerText = 'Please select the options to place the order !!!'
+
+            const userId = document.getElementById('userId').value;
+            const total = document.getElementById('total').value;
+
+            const orderDetails = {
+                selectedMethod: selectedMethod,
+                selectedAdress: selectedAdress,
+                userId: userId,
+                total: total
+            }
+            const orderplacement = await fetch('/place/order', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(orderDetails)
+            })
+            let res = await orderplacement.json()
+            if (res == 'success') {
+                Swal.fire({
+                    title: 'Success',
+                    text: "Order Plcaed Successfully !",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK',
+                    timer: 3000
+                }).then(() => {
+                    document.location.href = '/orders'
+                })
+            } else if (res.method == 'paypal') {
+                document.location.href = '/paypal-checkout/' + userId + '/' + total + '/' + res.address
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: 'Something went wrong!',
+                })
+            }
+        }
+        //  }
+        async function redeemCoupon() {
+            const coupon = document.getElementById('promocard').value
+            let response = await fetch('/redeem-coupon', {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ coupon: coupon }),
+            });
+            let result = await response.json();
+            if (result.error) {
+                document.getElementById('error-message').innerText = result.error
+            } else {
+                const amount = result.amount
+                const actualAmount = document.getElementById('actualAmount').value
+                const discountAmount = actualAmount * amount / 100
+                const newAmount = actualAmount - discountAmount
+
+                document.getElementById('couponAmount').value = amount
+                document.getElementById('total').value = newAmount
+                document.getElementById('last-amount').innerText = newAmount
+                document.getElementById("totalPricecheckout").innerText = newAmount
+                document.getElementById('coupon').innerText = discountAmount
+                document.getElementById('error-message').innerText = ""
+            }
+        }
+    </script>

@@ -1,0 +1,98 @@
+<div class="page-body">
+
+    <!-- New Product Add Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="row">
+                    <div class="col-sm-8 m-auto">
+                        <div class="card top-card">
+                            <div class="card-body">
+                                <div class="card-header-2">
+                                    <h5>Product Information</h5>
+                                </div>
+
+                                <form class="theme-form theme-form-2 mega-form" action="/admin/add-products" method="POST"
+                                    enctype="multipart/form-data">
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="form-label-title col-sm-3 mb-0">Product
+                                            Name</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" placeholder="Product Name"
+                                                name="productname">
+                                        </div>
+                                    </div>
+
+
+
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">Category</label>
+                                        <div class="col-sm-9">
+                                            <select class="js-example-basic-single w-100" name="category">
+                                                <option disabled>Category Menu</option>
+                                                {{#each CategoryData}}
+                                                <option>{{categoryName}}</option>
+                                                {{/each}}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="form-label-title col-sm-3 mb-0">Quantity</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="text" placeholder="Quantity"
+                                                name="quantity">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="form-label-title col-sm-3 mb-0 ">Product
+                                            Description</label>
+                                        <div class="col-sm-9">
+                                            <input type="text" placeholder="Product Description" class="form-control"
+                                                style="height: 100px;" id="editor" name="description">
+                                        </div>
+                                    </div>
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 form-label-title">price</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control" type="number" name="price" placeholder="0">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-4 row align-items-center">
+                                        <label class="col-sm-3 col-form-label form-label-title">Images</label>
+                                        <div class="col-sm-9">
+                                            <input class="form-control form-choose" type="file" id="formFile"
+                                                name="image" multiple>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="mb-4 row align-items-center mt-4">
+                                        <label class="col-sm-3 col-form-label form-label-title">Stock
+                                            Status</label>
+                                        <div class="col-sm-9">
+                                            <select class="js-example-basic-single w-100" name="status">
+                                                <option>In Stock</option>
+                                                <option>Out Of Stock</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                            </div>
+
+                            <div class="d-flex justify-content-center">
+                                <button type="submit" class="btn btn-block btn-lg"
+                                    style="background-color: #282828;"><span style="color: white;">Add
+                                        New Product</span></button>
+                            </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<!-- New Product Add End -->

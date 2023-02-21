@@ -1,0 +1,134 @@
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Orders</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                <li class="active" aria-current="page">Orders</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+<section class=" gradient-custom">
+    <div class="container py-5 ">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col-lg-12 ">
+                {{#each orderData}}
+                
+                <div class="card mb-2" style="border-radius: 10px;">
+                    <div class="card-header d-flex justify-content-between align-items-center px-4 py-5">
+                        <h5 class="text-muted mb-0">OrderID : <span
+                                style="color: #a8729a;">{{orderId}}</span>
+                        </h5>
+                         <h5 class="text-muted mb-0">Date : <span
+                                style="color: #a8729a;">{{date}}</span>
+                        </h5>
+                        
+                    </div>
+                    
+                    <div class="card-body p-4">
+                      
+                        <div class="card shadow-0 border mb-4">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp"
+                                            class="img-fluid" alt="Phone">
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0">Samsung Galaxy</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">White</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <b>Status :</b>
+                                        <p class="text-muted mb-0 small">{{status}}</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="text-muted mb-0 small">Qty: {{total}}</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <a href="/orders-details/{{orderId}}" class="btn btn-dark text-white">Order Details</a>
+                                    </div>
+                                   
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- ...::::Start About Us Center Section:::... -->
+{{!-- <div class="empty-cart-section section-fluid">
+    <div class="emptycart-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
+                    <div class="emptycart-content text-center">
+                        <div class="image">
+                            <img class="img-fluid" src="Users/images/emprt-cart/empty-cart.png" alt="">
+                        </div>
+                        <h4 class="title">No Orders </h4>
+                        <h6 class="sub-title">Sorry Mate... No Orders done yet!</h6>
+                        <a href="/home" class="btn btn-lg btn-golden">Continue Shopping</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...::::End  About Us Center Section:::... --> --}}
+
+
+<script>
+
+    async function RemoveItemOrder(itemid) {
+
+        const response = await fetch('/cancel-order/' + itemid, {
+            method: 'DELETE', headers: {
+                'Content-Type': 'application/json',
+            },
+
+        });
+
+        const res = await response.json();
+        if (res == "success") {
+            {
+                Swal.fire({
+                    title: 'success',
+                    text: "Item deleted successfully !",
+                    icon: 'success',
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK',
+                    timer: 3000
+                }).then((res) => {
+                    window.location.reload()
+                })
+            }
+        } else
+            try {
+                console.log("Hello")
+            }
+            catch (error) {
+                console.log(error.message)
+            }
+    }
+
+</script>

@@ -1,0 +1,56 @@
+{{!-- <div style="height: 80px;background-color:#282828">
+
+
+	<img style="height: 70px;padding:10px" src="/Users/images/logo/logo_white.png" alt="">
+</div> --}}
+<section class="vh-100" style="background-color: #ECECEC;">
+	<div class="mask d-flex align-items-center">
+		<div class="container h-100">
+			<div class="row d-flex justify-content-center align-items-center h-100">
+				<div class="col-12 col-md-9 col-lg-7 col-xl-6">
+					<div class="card" style="border-radius: 15px;">
+						<div class="card-body p-5">
+							<h2 class="text-uppercase text-center mb-5">User Login</h2>
+							{{#if message}}
+							<div class="alert alert-success" role="alert">
+								{{message}}
+							</div>
+							{{else if error}}
+							<div class="alert alert-danger" role="alert">
+								{{error}}
+							</div>
+							         {{/if}}
+
+							<form action="/login" method="POST">
+
+								<div class="form-outline mb-3">
+									<input type="text" name="email" class="form-control form-control-lg" />
+									<label class="form-label">Username</label>
+								</div>
+
+
+								<div class="form-outline mb-3">
+									<input type="password" name="password" class="form-control form-control-lg" />
+									<label class="form-label">Password</label>
+								</div>
+								<a href="/forget" class="text-muted small	">Forgot your password?</a>
+
+
+								<div class="d-flex justify-content-center">
+									<button type="submit" class="btn btn-block btn-lg"
+										style="background-color: #282828;"><span
+											style="color: white;">Login</span></button>
+								</div>
+
+								<p class="text-center text-muted mt-4 mb-0">Create an account? <a href="/register"
+										class="fw-bold text-body"><u>Click here</u></a></p>
+
+							</form>
+
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>

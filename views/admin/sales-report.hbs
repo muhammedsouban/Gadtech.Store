@@ -1,0 +1,56 @@
+<!-- Container-fluid starts-->
+<div class="page-body">
+    <!-- All User Table Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-header option-title">
+                            <h5>Sales Report</h5>
+
+                        </div>
+
+                        <div class="table-responsive table-product">
+                            <table id="example"  class="table all-package theme-table align-items-center" style="width:100%">
+    <thead>
+        <tr>
+            <th>OrderId</th>
+            <th>User</th>
+            <th>Date</th>
+            <th>Status</th>
+            <th>Payment Mode</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each orderData}}
+            <tr>
+                <td>#{{orderId}}</td>
+                <td>{{userName}}</td>
+                <td>{{date}}</td>
+                <td>{{status}}</td>
+                <td>{{payment_method}}</td>
+                <td>₹ {{total}}</td>
+            </tr>
+        {{/each}}
+    </tbody>
+</table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All User Table Ends-->
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        });
+    });
+</script>

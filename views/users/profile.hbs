@@ -1,0 +1,252 @@
+
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">My Account</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="/home">Home</a></li>
+                                <li><a href="/home">Shop</a></li>
+                                <li class="active" aria-current="page">My Account</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+
+<!-- ...:::: Start Account Dashboard Section:::... -->
+<div class="account-dashboard">
+    <div class="container">
+        <div class="row" style="background-color: white;padding:20px">
+            <div class="col-sm-12 col-md-3 col-lg-4 pt-5 ">
+                <!-- Nav tabs -->
+                <div class="dashboard_tab_button" data-aos="fade-up" data-aos-delay="0">
+                    <ul role="tablist" class="nav flex-column dashboard-list">
+                        <li><a href="#profile" data-bs-toggle="tab"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover active">Profile</a>
+                        </li>
+                        <li> <a href="#orders" data-bs-toggle="tab"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Orders</a></li>
+                        <li><a href="#downloads" data-bs-toggle="tab"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Wishlist</a></li>
+                        <li><a href="#address" data-bs-toggle="tab"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Addresses</a></li>
+                        {{!-- <li><a href="#account-details" data-bs-toggle="tab"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">Account details</a>
+                        </li> --}}
+                        <li><a href="/logout"
+                                class="nav-link btn btn-block btn-md btn-black-default-hover">logout</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-9 col-lg-7 ">
+                <!-- Tab panes -->
+                <div class="tab-content dashboard_content" data-aos="fade-up" data-aos-delay="200">
+                    <div class="tab-pane fade show active" id="profile">
+
+                        <form class="ms-5" style="width: 70%;text-align-center" action="/Update-profile" method="post">
+
+                            {{#each user}}
+
+                            <div class=" mb-3">
+                                <label class="form-label">Name</label>
+
+                                <input type="text" name="name" class="form-control form-control-lg" value="{{name}}" />
+                            </div>
+
+                            <div class="  mb-3">
+                                <label class="form-label">Email</label>
+
+                                <input type="email" name="email" class="form-control form-control-lg"
+                                    value="{{email}}" />
+                            </div>
+
+                            <div class=" mb-3">
+                                                                <label class="form-label">Mobile No.</label>
+
+                                <input type="text" name="mobile" class="form-control form-control-lg"
+                                    value="{{mobile}}" />
+                            </div>
+                             <div class="d-flex justify-content-center">
+                            <button onclick="return confirm('Profile Updated')" type="submit" class="btn btn-block btn-lg" style="background-color: #282828;"><span
+                                    style="color: white;">Update</span></button>
+                        </div>
+                            {{/each}}
+
+                        </form>
+                    </div>
+                    <div class="tab-pane fade" id="orders">
+                        <h4>Orders</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Total</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{OrderItems}}
+                                    {{#each orders}}
+
+                                    <tr>
+                                        <td>{{userName}}</td>
+                                        <td>{{date}}</td>
+                                        <td><span class="success">{{status}}</span></td>
+                                        <td></td>
+                                        <td><a href="cart.html" class="view">view</a></td>
+                                    </tr>
+                                    {{/each}}
+                                  
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="downloads">
+                        <h4>Downloads</h4>
+                        <div class="table_page table-responsive">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Downloads</th>
+                                        <th>Expires</th>
+                                        <th>Download</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>Shopnovilla - Free Real Estate PSD Template</td>
+                                        <td>May 10, 2018</td>
+                                        <td><span class="danger">Expired</span></td>
+                                        <td><a href="#" class="view">Click Here To Download Your File</a></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Organic - ecommerce html template</td>
+                                        <td>Sep 11, 2018</td>
+                                        <td>Never</td>
+                                        <td><a href="#" class="view">Click Here To Download Your File</a></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="tab-pane" id="address">
+
+                        <div class="container">
+                            <div class="row">
+
+                                <div class="col-lg-12 col-md-9">
+                                    <div class="osahan-account-page-right shadow-sm bg-white p-4 h-100">
+                                        <div class="tab-content" id="myTabContent">
+                                            <div class="tab-pane fade  active show" id="addresses" role="tabpanel"
+                                                aria-labelledby="addresses-tab">
+                                                <table class="profilebtn">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>
+                                                                <h4 class="font-weight-bold mt-0 ">Manage
+                                                                    Addresses</h4>
+
+                                                            </th>
+
+                                                            <th> <a class="btn mb-2 btn-success" style="color:white;"
+                                                                    href="/add-address">Add New Address</a>
+                                                            </th>
+                                                        </tr>
+                                                    </thead>
+                                                </table>
+
+                                                <div class="row">
+                                                    {{#each Address}}
+                                                    <div class="col-lg-6 col-md-4">
+                                                        <div
+                                                            class="bg-white card addresses-item mb-4 border border-primary shadow">
+                                                            <div class="gold-members p-4">
+                                                                <div class="media">
+                                                                    <div class="mr-3"><i
+                                                                            class="icofont-ui-home icofont-3x"></i>
+                                                                    </div>
+
+                                                                    <div class="media-body">
+
+                                                                        <h6 class="mb-1 text-secondary">Home</h6>
+                                                                        <p class="text-black">{{Name}} &nbsp &nbsp
+                                                                            &nbsp<b>{{Number}}</b>
+                                                                        </p>
+                                                                        <p>{{City}}, {{State}}, {{Country}}</p>
+                                                                        <p>{{address}} - {{Pincode}} </p>
+
+                                                                        {{!-- <p class="mb-0 text-black font-weight-bold"><a
+                                                                                class="text-primary mr-3"
+                                                                                data-toggle="modal"
+                                                                                data-target="#add-address-modal"
+                                                                                href="/Edit-Address/{{_id}}"><i
+                                                                                    class="icofont-ui-edit"></i>EDIT</a> --}}
+                                                                            <a class="text-danger" data-toggle="modal"
+                                                                                data-target="#delete-address-modal"
+                                                                                href="/Delete-Address/{{_id}}" onclick="return confirm('Are You Sure ?')"> <i
+                                                                                    class="icofont-ui-delete"> </i>
+                                                                                DELETE</a>
+                                                                        </p>
+
+                                                                    </div>
+
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    {{/each}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="profile">
+                        <h3>My Profile </h3>
+                        <div class="login">
+                            <div class="login_form_container">
+                                <div class="account_login_form">
+                                    <form action="#">
+
+                                        <div class="form-outline mb-3">
+                                            <input type="text" name="name" class="form-control form-control-lg"
+                                                required />
+                                            <label class="form-label">FullName</label>
+                                        </div>
+
+                                        <div class="form-outline  mb-3">
+                                            <input type="email" name="email" class="form-control form-control-lg"
+                                                required />
+                                            <label class="form-label">Email</label>
+                                        </div>
+                                        <div class="form-outline mb-3">
+                                            <input type="text" name="mobile" class="form-control form-control-lg"
+                                                required />
+                                            <label class="form-label">Phone Number</label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Account Dashboard Section:::... -->
+

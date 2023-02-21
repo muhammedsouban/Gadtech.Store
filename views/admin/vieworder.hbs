@@ -1,0 +1,53 @@
+<!-- Container-fluid starts-->
+<div class="page-body">
+    <!-- All User Table Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-header option-title">
+                            <h5>All Orders</h5>
+
+                        </div>
+
+                        <div class="table-responsive table-product">
+                            <table class="table all-package theme-table align-items-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th style="text-align:center">Image</th>
+                                        <th>Product</th>
+                                        {{!-- <th>Address</th> --}}
+                                        <th>Description</th>
+                                        <th>Price</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {{#each orderData}}
+                                    {{#each NewOrders}}
+                                    <tr>
+                                        <td>
+                                            <div class="table-image">
+                                                <img src="/images/products/{{image.[0]}}" class="img-fluid" alt="">
+                                            </div>
+                                        </td>
+
+                                        <td>{{productname}}</td>
+
+                                        {{!-- <td>{{Address}}</td> --}}
+                                        <td>{{description}}</td>
+                                        <td>{{price}}</td>
+
+                                    </tr>
+                                    {{/each}}
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All User Table Ends-->

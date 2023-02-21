@@ -1,0 +1,244 @@
+<!-- tap on top start -->
+<div class="tap-top">
+    <span class="lnr lnr-chevron-up"> </span>
+</div>
+<!-- tap on tap end -->
+
+<!-- page-wrapper Start-->
+<div class="page-wrapper compact-wrapper" id="pageWrapper">
+    <!-- Page Header Start-->
+    <div class="page-header">
+        <div class="header-wrapper m-0">
+            <div class="header-logo-wrapper p-0">
+                <div class="logo-wrapper">
+                    <a href="index.html">
+                        <img class="img-fluid main-logo" src="assets/images/logo/1.png" alt="logo">
+                        <img class="img-fluid white-logo" src="/Users/images/logo/logo_white.png" alt="logo">
+                    </a>
+                </div>
+                <div class="toggle-sidebar">
+                    <i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
+                    <a href="index.html">
+                        <img src="assets/images/logo/1.png" class="img-fluid" alt="">
+                    </a>
+                </div>
+            </div>
+
+            <form class="form-inline search-full" action="javascript:void(0)" method="get">
+                <div class="form-group w-100">
+                    <div class="Typeahead Typeahead--twitterUsers">
+                        <div class="u-posRelative">
+                            <input class="demo-input Typeahead-input form-control-plaintext w-100" type="text"
+                                placeholder="Search Fastkart .." name="q" title="" autofocus>
+                            <i class="close-search" data-feather="x"></i>
+
+                        </div>
+                        <div class="Typeahead-menu"></div>
+                    </div>
+                </div>
+            </form>
+            <div class="nav-right col-6 pull-right right-header p-0">
+                <ul class="nav-menus">
+                    <li>
+                        <span class="header-search">
+                            <i class="ri-search-line"></i>
+                        </span>
+                    </li>
+
+
+                    <li>
+                        <div class="mode">
+                            <i class="ri-moon-line"></i>
+                        </div>
+                    </li>
+                    <li class="profile-nav onhover-dropdown pe-0 me-0">
+                        <div class="media profile-media">
+                            <div class="user-name-hide media-body">
+                                <p style="color: white;" class="mb-0 font-roboto">Admin<i class="middle ri-arrow-down-s-line"></i></p>
+                            </div>
+                        </div>
+                        <ul class="profile-dropdown onhover-show-div">
+
+                            <li>
+                                <a href="profile-setting.html">
+                                    <i data-feather="settings"></i>
+                                    <span>Settings</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="javascript:void(0)">
+                                    <i data-feather="log-out"></i>
+                                    <span>Log out</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header Ends-->
+
+    <!-- Page Body Start-->
+    <div class="page-body-wrapper">
+        <!-- Page Sidebar Start-->
+        <div class="sidebar-wrapper">
+            <div id="sidebarEffect"></div>
+            <div>
+                <div class="logo-wrapper logo-wrapper-center">
+                    <a href="index.html" data-bs-original-title="" title="">
+                        <img class="img-fluid for-white" src="/Users/images/logo/logo_white.png" alt="logo">
+                    </a>
+                    <div class="back-btn">
+                        <i class="fa fa-angle-left"></i>
+                    </div>
+                    <div class="toggle-sidebar">
+                        <i class="ri-apps-line status_toggle middle sidebar-toggle"></i>
+                    </div>
+                </div>
+                <div class="logo-icon-wrapper">
+                    <a href="index.html">
+                        <img class="img-fluid main-logo main-white" src="assets/images/logo/logo.png" alt="logo">
+                        <img class="img-fluid main-logo main-dark" src="assets/images/logo/logo-white.png" alt="logo">
+                    </a>
+                </div>
+                <nav class="sidebar-main">
+                    <div class="left-arrow" id="left-arrow">
+                        <i data-feather="arrow-left"></i>
+                    </div>
+
+                    <div id="sidebar-menu">
+                        <ul class="sidebar-links" id="simple-bar">
+                            <li class="back-btn"></li>
+
+                            <li class="sidebar-list">
+                                <a class="sidebar-link sidebar-title link-nav" href="index.html">
+                                    <i class="ri-home-line"></i>
+                                    <span>Dashboard</span>
+                                </a>
+                            </li>
+
+                            <li class="sidebar-list">
+                                <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-store-3-line"></i>
+                                    <span>Product</span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a href="/admin/products">All Products</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/admin/add-products">Add New Product</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            <li class="sidebar-list">
+                                <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-list-check-2"></i>
+                                    <span>Category</span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a href="/admin/category-list">Category List</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/admin/add-category">Add New Category</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="sidebar-list">
+                                <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-archive-line"></i>
+                                    <span>Orders</span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a href="/admin/orders">Order List</a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                            <li class="sidebar-list">
+                                <a class="sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-user-3-line"></i>
+                                    <span>Users</span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a href="/admin/all-users">All Users</a>
+                                    </li>
+
+                                </ul>
+                            </li>
+
+                            {{!-- <li class="sidebar-list">
+                                <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-list-settings-line"></i>
+                                    <span>Attributes</span>
+                                </a>
+                              
+                            </li> --}}
+
+                            <li class="sidebar-list">
+                                <a class="sidebar-link sidebar-title link-nav" href="/admin/banner">
+                                    <i class="ri-price-tag-3-line"></i>
+                                    <span>Media</span>
+                                </a>
+                            </li>
+
+
+
+                            <li class="sidebar-list">
+                                <a class="linear-icon-link sidebar-link sidebar-title" href="javascript:void(0)">
+                                    <i class="ri-price-tag-3-line"></i>
+                                    <span>Coupons</span>
+                                </a>
+                                <ul class="sidebar-submenu">
+                                    <li>
+                                        <a href="/admin/coupon">Coupon List</a>
+                                    </li>
+
+                                    <li>
+                                        <a href="/admin/add-coupon">Create Coupon</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+
+
+                            {{!-- <li class="sidebar-list">
+                                <a class="sidebar-link sidebar-title link-nav" href="product-review.html">
+                                    <i class="ri-star-line"></i>
+                                    <span>Product Review</span>
+                                </a>
+                            </li> --}}
+
+
+
+                            <li class="sidebar-list">
+                                <a class="linear-icon-link sidebar-link sidebar-title" href="/admin/salesReport">
+                                    <i class="ri-settings-line"></i>
+                                    <span>Sales Report</span>
+                                </a>
+                                {{!-- <ul class="sidebar-submenu">
+                                    <li>
+                                        <a href="profile-setting.html">Profile Setting</a>
+                                    </li>
+                                </ul> --}}
+                            </li>
+
+
+                        </ul>
+                    </div>
+
+                    <div class="right-arrow" id="right-arrow">
+                        <i data-feather="arrow-right"></i>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <!-- Page Sidebar Ends-->

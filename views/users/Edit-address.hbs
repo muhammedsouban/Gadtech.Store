@@ -1,0 +1,54 @@
+
+<form class="card addaddress" action="/profile" method="post">
+
+                    <div class="card-body">
+                        <h3 class="h2 mb-4">Address</h3>
+                        <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label">Name</label>
+                                <input type="text" name="Name" class="form-control" value="{{Address.Name}}">
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label">Mobile No.</label>
+                                <input type="text" name="Number" class="form-control" value="{{Number}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label">Town / City</label>
+                                <input type="text" name="City" class="form-control" value="{{City}}">
+                            </div>
+                            <div class="col-lg-6 mb-3">
+                                <label class="form-label">State</label>
+                                <input type="text" name="State" class="form-control" value="{{State}}">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Country</label>
+                                    <input type="text" name="Country" class="form-control" value="{{Country}}">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Pincode</label>
+                                    <input type="text" name="Pincode" class="form-control" value="{{Pincode}}">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Address</label>
+                            <input style="height: 100px;" name="address" type="text" class="form-control" value="{{address}}">
+                        </div>
+                       
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-block btn-lg" style="background-color: #282828;"><span
+                                    style="color: white;">Update</span></button>
+                        </div>
+                    </div>
+               
+               
+            </form>

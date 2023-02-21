@@ -1,0 +1,77 @@
+<!-- Container-fluid starts-->
+<div class="page-body">
+    <!-- All User Table Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-header option-title">
+                            <h5>All Category</h5>
+                            <form class="d-inline-flex">
+                                <a href="/admin/add-category" class="align-items-center btn btn-theme">
+                                    <i data-feather="plus-square"></i>Add New
+                                </a>
+                            </form>
+                        </div>
+
+                        <div class="table-responsive category-table">
+                            <table class="table all-package theme-table" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>Category Name</th>
+                                        <th>Category Image</th>
+                                        <th>Product Offer</th>
+                                        <th>Option</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {{#each categoryData}}
+                                    <tr>
+                                        <td>{{categoryName}}</td>
+
+
+                                        <td>
+                                            <div class="table-image">
+                                                <img src="/images/categories/{{image}}" class="img-fluid" alt="">
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            {{categoryOffer}}
+                                        </td>
+                                        <td>
+                                            <ul>
+
+                                                <li>
+                                                    <a href="/admin/edit-category/{{_id}}">
+                                                        <i class="ri-pencil-line"></i>
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="/admin/delete-category/{{_id}}"
+                                                        onclick="return confirm('Are You want to delete {{categoryname}}?')">
+                                                        <i class="ri-delete-bin-line"></i>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                        </td>
+                                    </tr>
+
+                                    {{/each}}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All User Table Ends-->
+
+   

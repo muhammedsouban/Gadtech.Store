@@ -1,0 +1,67 @@
+
+        <!-- Container-fluid starts-->
+        <div class="page-body">
+            <!-- All User Table Start -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="title-header option-title">
+                                    <h5>All Users</h5>
+                                    <form class="d-inline-flex">
+                                        <a href="admin/add-user" class="align-items-center btn btn-theme">
+                                            <i data-feather="plus"></i>Add New
+                                        </a>
+                                    </form>
+                                </div>
+
+                                <div class="table-responsive table-product">
+                                    <table class="table all-package theme-table align-items-center" id="table_id">
+                                        <thead>
+                                            <tr>
+                                                <th>FullName</th>
+                                                <th>Phone</th>
+                                                <th>Email</th>
+                                                <th>Option</th>
+                                                <th>Verification</th>
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            {{#each userData}}
+                                            <tr>
+                                                <td>{{name}}</td>
+                                                <td>{{mobile}}</td>
+                                                <td>{{email}}</td>
+
+                                                <td>
+                                                    {{#if block}}
+                                                    <a href="/admin/Block-User/{{_id}}" class="align-items-center btn btn-theme">
+                                                        <i data-feather=""></i>Block
+                                                    </a> {{else}}
+                                                    <a href="/admin/unblock-User/{{_id}}" class="align-items-center btn btn-theme">
+                                                        <i data-feather=""></i>Unblock
+                                                        {{/if}}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    {{#if is_verified}}
+                                                    <button>verified</button>
+                                                    {{else }}
+
+                                                    <button>Please verify</button>{{/if}}
+                                                </td>
+
+                                            </tr>
+                                            {{/each}}
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          

@@ -1,0 +1,72 @@
+
+        <div class="page-body">
+
+            <!-- New Product Add Start -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="col-sm-8 m-auto">
+                                <div class="card mt-5">
+                                    <div class="card-body">
+                                        <div class="card-header-2">
+                                            <h5>Category Information</h5>
+                                        </div>
+
+                                        <form action="/admin/update-category" class="theme-form theme-form-2 mega-form"
+                                            method="POST" enctype="multipart/form-data">
+
+                                            {{#each categoryData}}
+                                            <input hidden="" name="id" value="{{_id}}">
+
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-sm-3 mb-0">Category Name</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" placeholder="Category Name"
+                                                        name="categoryName" value="{{categoryName}}">
+                                                </div>
+                                            </div>
+
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="col-sm-3 col-form-label form-label-title">Category
+                                                    Image</label>
+                                                <div class="form-group col-sm-9">
+                                                    <div class="dropzone-wrapper">
+                                                        <div class="dropzone-desc">
+                                                            <i class="ri-upload-2-line"></i>
+                                                            <p>{{image}}</p>
+                                                        </div>
+                                                        <input type="file" name="image"
+                                                            class="dropzone" style="height: 150px;">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mb-4 row align-items-center">
+                                                <label class="form-label-title col-sm-3 mb-0">Category Offer</label>
+                                                <div class="col-sm-9">
+                                                    <input class="form-control" type="text" placeholder="Category Offer"
+                                                        name="categoryOffer" value="{{categoryOffer}}">
+                                                </div>
+                                            </div>
+
+                                            {{/each}}
+                                            <div class="d-flex justify-content-center">
+                                                <button type="submit" class="btn btn-block btn-lg"
+                                                    style="background-color: #282828;"><span
+                                                        style="color: white;">Update
+                                                        Category</span></button>
+                                            </div>
+
+                                        </form>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- New Product Add End -->
+
+        

@@ -1,0 +1,62 @@
+<!-- Container-fluid starts-->
+<div class="page-body">
+    <!-- All User Table Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-header option-title">
+                            <h5>All Coupons</h5>
+                            <div class="right-options">
+                                <ul>
+                                    <li>
+                                        <a class="btn btn-solid" href="/admin/add-coupon">Create Coupon</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="table-responsive table-product">
+                            <table class="table all-package theme-table align-items-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>Coupon Code</th>
+                                        <th>Offer</th>
+                                        <th>Expiry Date</th>
+                                        <th>Action</th>
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {{#each couponData}}
+                                    <tr>
+                                        <td>{{couponcode}}</td>
+                                        <td>{{offer}}</td>
+                                        <td>{{expirydate}}</td>
+                                        <td>
+                                            {{#if is_valid}}
+                                            <a href="/admin/deactivate-coupon/{{_id}}"
+                                                class="align-items-center btn btn-dark">
+                                                <i data-feather=""></i>Deactivate
+                                            </a> {{else}}
+                                            <a href="/admin/activate-coupon/{{_id}}"
+                                                class="align-items-center btn btn-Success btn-outline-warning">
+                                                <i data-feather=""></i>Activate
+                                                {{/if}}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All User Table Ends-->
+
+   

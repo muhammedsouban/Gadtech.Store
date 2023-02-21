@@ -1,0 +1,213 @@
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Cart</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                <li class="active" aria-current="page">Cart</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+
+<!-- ...:::: Start Cart Section:::... -->
+{{#if cartData}}
+<form action="/proceed-checkout" method="post">
+    <div class="cart-section">
+        <!-- Start Cart Table -->
+        <div class="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
+            <div class="container">
+                <div class="row">
+                    <div class="col-9">
+                        {{#each cartData}}
+                        <div class="card rounded-3 mb-4" data-aos="fade-up" data-aos-delay="200">
+                            <div class="card-body p-4">
+                                <div class="row d-flex justify-content-between align-items-center">
+                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                        <img src="/images/products/{{image.[0]}}" class="img-fluid rounded-3"
+                                            alt="Cotton T-shirt">
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                        <p class="lead fw-normal mb-2">{{productname}}</p>
+                                        <p><span class="text-muted">Price: </span>{{price}} </p>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                        <a class="btn btn-dark "
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown();validateData('{{_id}}')">
+                                            <i style="color:white" class="fas fa-minus"></i>
+                                        </a>
+
+                                        <input class="text-center border mx-1" id="{{_id}}" name="quantity" min="1" max="{{quantity}}" value="1"
+                                            pattern="{{_id}}" type="number" onchange="validateData('{{_id}}')">
+
+                                        <a class="btn btn-dark "
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp();validateData('{{_id}}')">
+                                            <i style="color:white" class="fas fa-plus"></i>
+                                        </a>
+                                    </div>
+                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <p id="actual_price_{{_id}}" hidden="">{{price}}</p>
+                                        <h5 id="price_text_{{_id}}" class="mb-0">{{price}}</h5>
+                                    </div>
+                                    <div class="col-md-1 col-lg-1 col-xl-1 ">
+                                        <a class="btn btn-link px-0 text-danger" type="reset"
+                                            onclick="RemoveItemCart('{{_id}}')">
+                                            <i class="ci-close-circle "></i>
+                                            <span class="fs-sm">Remove</span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                        
+                        {{/each}}
+
+                    </div>
+                  <div class="col-3">
+                        <div class="coupon_code right m-0" data-aos="fade-up" data-aos-delay="200">
+                            <h3>Cart Totals</h3>
+                            <div class="coupon_inner">
+                                <div class="cart_subtotal">
+                                    <p>Subtotal</p>
+                                    <p id="total" class="cart_amount">{{subtotal}}</p>
+
+                                </div>
+
+                                <div class="cart_subtotal ">
+                                    <p>Delivery charges</p>
+                                    <p class="cart_amount" style="font-size: small;">FREE</p>
+                                </div>
+<br>
+<hr>
+                                <div class="cart_subtotal">
+                                    <b>Total</b>
+                                    <p id="final" class="cart_amount">{{subtotal}}</p>
+                                </div>
+                                <hr>
+                                <div class="checkout_btn">
+                                    <button type="submit" class="btn btn-md btn-golden">
+                                        Proceed to Checkout
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> 
+                {{!-- <div class="cart_submit">
+                    <button class="btn btn-md btn-golden" type="submit">update cart</button>
+                </div> --}}
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Start Coupon Start -->
+    
+    </div> <!-- ...:::: End Cart Section:::... -->
+
+
+    {{else}}
+    <!-- ...::::Start About Us Center Section:::... -->
+    <div class="empty-cart-section section-fluid">
+        <div class="emptycart-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 col-md-10 offset-md-1 col-xl-6 offset-xl-3">
+                        <div class="emptycart-content text-center">
+                            <div class="image">
+                                <img class="img-fluid" src="Users/images/emprt-cart/empty-cart.png" alt="">
+                            </div>
+                            <h4 class="title">Your Cart is Empty</h4>
+                            <h6 class="sub-title">Sorry Mate... No item Found inside your cart!</h6>
+                            <a href="/home" class="btn btn-lg btn-golden">Continue Shopping</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!-- ...::::End  About Us Center Section:::... -->
+
+    {{/if}}
+    <script>
+
+        async function RemoveItemCart(itemid) {
+            let response = await fetch('/cart-delete/' + itemid, {
+                method: 'DELETE', headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+
+            let res = await response.json();
+            if (res == "Success") {
+                {
+                    Swal.fire({
+                        title: 'Success',
+                        text: "Item deleted successfully !",
+                        icon: 'success',
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'OK',
+                        timer: 3000
+                    }).then((res) => {
+                        window.location.reload()
+                    })
+                }
+            } else
+                try {
+                    console.log("Hello")
+                }
+                catch (error) {
+                    console.log(error.message)
+                }
+        }
+
+
+        function validateData(id) {
+            const element = document.getElementById(id)
+            const priceText = document.getElementById('price_text_' + id)
+            const price = document.getElementById('actual_price_' + id)
+            const total = document.getElementById('total')
+            const final = document.getElementById('final')
+            if (Number(element.value) > Number(element.max))
+                element.value = element.max
+
+            const rate = priceText.innerHTML
+            priceText.innerHTML = Number(price.innerHTML) * Number(element.value)
+            const diff = Number(priceText.innerHTML) - Number(rate)
+            total.innerHTML = Number(diff) + Number(total.innerHTML)
+            final.innerHTML = total.innerHTML
+
+
+        }
+
+        async function proceedTocheckout() {
+            const quantity = Object.values(document.getElementsByName("quantity")).map((item) => (
+                {
+
+                    quantity: item.value
+                }
+            ))
+
+            let response = await fetch('/proceed-checkout', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', },
+                body: JSON.stringify(quantity)
+            });
+            let result = await response.json()
+
+        }
+    </script>

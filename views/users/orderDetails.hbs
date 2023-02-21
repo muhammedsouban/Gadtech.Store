@@ -1,0 +1,151 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+    crossorigin="anonymous">
+<link rel="stylesheet" href="pdf.css" />
+<script src="pdf.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.js"></script>
+<!-- ...:::: Start Breadcrumb Section:::... -->
+<div class="breadcrumb-section breadcrumb-bg-color--golden">
+    <div class="breadcrumb-wrapper">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h3 class="breadcrumb-title">Orders</h3>
+                    <div class="breadcrumb-nav breadcrumb-nav-color--black breadcrumb-nav-hover-color--golden">
+                        <nav aria-label="breadcrumb">
+                            <ul>
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="shop-grid-sidebar-left.html">Shop</a></li>
+                                <li><a href="/orders">Orders</a></li>
+                                <li class="active" aria-current="page">Orders-details</li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> <!-- ...:::: End Breadcrumb Section:::... -->
+
+<div class="container py-5 ">
+                            <button class="btn btn-primary mb-2" id="download"> download</button>
+
+    <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12" id="invoice">
+            {{#each orderDetails}}
+            {{#each NewOrders}}
+            <div class="card" style="border-radius: 10px;">
+                <div class="d-flex justify-content-between align-items-center card-header px-4 py-5">
+                    <h5 class="text-muted mb-0">Thanks for your Order, <span
+                            style="color: #a8729a;">{{../userId}}</span>!
+                </div>
+                <div class="card-body p-4">
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <p class="lead fw-normal mb-0" style="color: #a8729a;">OrderID :{{../orderId}} </p>
+
+                    </div>
+                    <div class=" justify-content-start pt-2">
+                        <p class="text-muted mb-0">{{Name}}</p>
+                        <p class="text-muted mb-0">{{Number}}</p>
+                        <p class="text-muted mb-0">{{City}}, {{State}}</p>
+                        <p class="text-muted mb-0">{{Country}} - {{Pincode}}</p>
+                    </div>
+
+                    <div class="card shadow-0 border mb-4">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img <img src="/images/products/{{image.[0]}}" class="img-fluid" alt="">
+
+                                </div>
+                                <div class="col-md-2  d-flex justify-content-center align-items-center">
+                                    <p class="mb-0"><strong class="h3">{{productname}}</strong> <br>{{description}}</p>
+
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small">White</p>
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small">Capacity: 64GB</p>
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small">Qty : <b>{{../Products.[0].quantity}}</b></p>
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small"> Price : <strong>{{price}}</strong></p>
+                                </div>
+                            </div>
+                            {{!--
+                            <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;"> --}}
+                            {{!-- <div class="row d-flex align-items-center">
+                                <div class="col-md-2">
+                                    <p class="text-muted mb-0 small">Track Order</p>
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="progress" style="height: 6px; border-radius: 16px;">
+                                        <div class="progress-bar" role="progressbar"
+                                            style="width: 65%; border-radius: 16px; background-color: #a8729a;"
+                                            aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                                    </div>
+                                    <div class="d-flex justify-content-around mb-1">
+                                        <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
+                                        <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                    </div>
+                                </div>
+                            </div> --}}
+                        </div>
+                    </div>
+
+
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <p class="fw-bold mb-0">Order Details</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> {{../total}}</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <p class="text-muted mb-0">Invoice Number : 788152</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <p class="text-muted mb-0">Invoice Date : {{../date}}</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-5">
+                        <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-between align-items-center border-0 px-4 py-1"
+                    style="background-color: #1c1c1c; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                    <p class="text-warning m-0">cancel Order ?</p>
+                    <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                        paid: <span class="h2 mb-0 ms-2 text-white">{{../total}}</span></h5>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+    {{/each}}
+</div>
+
+<script>
+    window.onload = function () {
+        
+        document.getElementById("download")
+            .addEventListener("click", () => {
+                const invoice = this.document.getElementById("invoice");
+                console.log(invoice);
+                console.log(window);
+                var opt = {
+                    margin: 1,
+                    filename: 'invoice.pdf',
+                    image: { type: 'jpeg', quality: 0.98 },
+                    html2canvas: { scale: 2 },
+                    jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+                };
+                html2pdf().from(invoice).set(opt).save();
+            })
+    }
+</script>

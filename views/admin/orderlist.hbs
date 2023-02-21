@@ -1,0 +1,88 @@
+<!-- Container-fluid starts-->
+<div class="page-body">
+    <!-- All User Table Start -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="title-header option-title">
+                            <h5>All Orders</h5>
+
+                        </div>
+
+                        <div class="table-responsive table-product">
+                            <table class="table all-package theme-table align-items-center" id="table_id">
+                                <thead>
+                                    <tr>
+                                        <th>OrderID</th>
+                                        <th>Date</th>
+                                        {{!-- <th>Address</th> --}}
+                                        <th>Payment Method</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    {{#each orderData}}
+                                    <tr>
+                                        <td>{{orderId}}</td>
+
+                                        <td>{{date}}</td>
+
+                                        {{!-- <td>{{Address}}</td> --}}
+                                        <td>{{payment_method}}</td>
+                                        <td>{{status}}</td>
+                                        <td>
+                                            <a class="btn btn-dark" href="/admin/viewOrder/{{orderId}}">View</a>
+                                            <select class="form-select form-select-sm status-update" id="status_{{_id}}"
+                                                onChange="update('{{_id}}')" aria-label="Default select example">
+                                                <option selected value="">Status</option>
+                                                <option value="Processing">Processing</option>
+                                                <option value="Dispatched">Dispatched</option>
+                                                <option value="Out for delivery">Out for delivery</option>
+                                                <option value="Delivered">Delivered</option>
+                                                <option value="Failed">Failed</option>
+                                                <option value="Cancelled">Cancelled</option>
+                                            </select>
+
+                                        </td>
+                                    </tr>
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- All User Table Ends-->
+
+
+    <script>
+        async function update(id) {
+
+            var select = document.getElementById('status_' + id);
+            var option = select.options[select.selectedIndex];
+            const data = {
+                status: option.value
+            }
+            const changeStatus = await fetch('/admin/order-status/' + id, {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            let res = await changeStatus.json()
+            if (res == 'success') {
+                document.location.href = '/admin/orders'
+
+            } else {
+
+            }
+        }
+
+    </script>
