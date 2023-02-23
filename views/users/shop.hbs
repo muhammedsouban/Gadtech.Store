@@ -11,7 +11,7 @@
                                 <li><a href="/home">Home</a></li>
                                 <li><a href="/shop">Shop</a></li>
                                 <li class="active" aria-current="page">{{categ}}</li>
-                               
+
                             </ul>
                         </nav>
                     </div>
@@ -29,6 +29,9 @@
                 <!-- Start Sidebar Area -->
                 <div class="siderbar-section" data-aos="fade-up" data-aos-delay="0">
 
+
+
+
                     <!-- Start Single Sidebar Widget -->
                     <div class="sidebar-single-widget">
                         <h6 class="sidebar-title">CATEGORIES</h6>
@@ -40,7 +43,21 @@
                             </ul>
                         </div>
                     </div> <!-- End Single Sidebar Widget -->
-
+                    <div class="sort-select-list d-flex align-items-center">
+                        <label class="mr-2">Sort By:</label>
+                        <form action="#">
+                            <fieldset>
+                                <select name="speed" id="speed">
+                                    <option>Sort by average rating</option>
+                                    <option>Sort by popularity</option>
+                                    <option selected="selected">Sort by newness</option>
+                                    <option>Sort by price: low to high</option>
+                                    <option>Sort by price: high to low</option>
+                                    <option>Product Name: Z</option>
+                                </select>
+                            </fieldset>
+                        </form>
+                    </div> <!-- End Sort Select Option -->
                     <!-- Start Single Sidebar Widget -->
                     {{!-- <div class="sidebar-single-widget">
                         <h6 class="sidebar-title">FILTER BY PRICE</h6>
@@ -186,23 +203,24 @@
                                         <span>Showing 1–9 of 21 results</span>
                                     </div> <!-- End Page Amount -->
                                 </div> <!-- End Sort tab Button -->
-
-                                <!-- Start Sort Select Option -->
-                                <div class="sort-select-list d-flex align-items-center">
-                                    <label class="mr-2">Sort By:</label>
-                                    <form action="#">
-                                        <fieldset>
-                                            <select name="speed" id="speed">
-                                                <option>Sort by average rating</option>
-                                                <option>Sort by popularity</option>
-                                                <option selected="selected">Sort by newness</option>
-                                                <option>Sort by price: low to high</option>
-                                                <option>Sort by price: high to low</option>
-                                                <option>Product Name: Z</option>
-                                            </select>
-                                        </fieldset>
+                                <div class="container-input">
+                                    <form action="/product/search" method="post">
+                                        <input type="text" placeholder="Search" name="Search" class="input">
+                                        <button type="submit"> <svg fill="#000000" width="20px" height="20px"
+                                                viewBox="0 0 1920 1920" xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M790.588 1468.235c-373.722 0-677.647-303.924-677.647-677.647 0-373.722 303.925-677.647 677.647-677.647 373.723 0 677.647 303.925 677.647 677.647 0 373.723-303.924 677.647-677.647 677.647Zm596.781-160.715c120.396-138.692 193.807-319.285 193.807-516.932C1581.176 354.748 1226.428 0 790.588 0S0 354.748 0 790.588s354.748 790.588 790.588 790.588c197.647 0 378.24-73.411 516.932-193.807l516.028 516.142 79.963-79.963-516.142-516.028Z"
+                                                    fill-rule="evenodd"></path>
+                                            </svg></button>
+                                            
+                                           {{#if search}}
+                                <a href="/shop" class=" text-danger">Clear</a>
+                                {{/if}}
                                     </form>
-                                </div> <!-- End Sort Select Option -->
+                                </div>
+                              
+                                <!-- Start Sort Select Option -->
+
                             </div> <!-- Start Sort Wrapper Box -->
                         </div>
                     </div>
@@ -235,9 +253,9 @@
                                                                     Cart</a>
                                                             </div>
                                                             <div class="action-link-right">
-                                                 
+
                                                                 <a href="wishlist.html"><i class="icon-heart"></i></a>
-                                                              
+
                                                             </div>
                                                         </div>
                                                     </div>
@@ -282,13 +300,13 @@
                                             <div class="col-12 col-md-12 col-sm-12">
                                                 <div class="product-list-single product-color--golden"
                                                     data-aos="fade-up" data-aos-delay="0">
-                                                        <a  href="/product/{{_id}}" class="product-list-img-link">
-                                                            <img class="img-fluid" src="/images/products/{{image.[0]}}"
-                                                                alt="">
-                                                            <img class="img-fluid" src="/images/products/{{image.[1]}}"
-                                                                alt="">
-                                                        </a>
-                                                   
+                                                    <a href="/product/{{_id}}" class="product-list-img-link">
+                                                        <img class="img-fluid" src="/images/products/{{image.[0]}}"
+                                                            alt="">
+                                                        <img class="img-fluid" src="/images/products/{{image.[1]}}"
+                                                            alt="">
+                                                    </a>
+
                                                     <div class="product-list-content">
                                                         <h5 class="product-list-link"><a
                                                                 href="/product/{{_id}}">{{productname}}</a></h5>
@@ -314,7 +332,7 @@
                                                             <a href="wishlist.html"
                                                                 class="btn btn-lg btn-black-default-hover"><i
                                                                     class="icon-heart"></i></a>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </div> <!-- End Product Defautlt Single -->

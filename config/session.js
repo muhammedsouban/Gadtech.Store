@@ -6,7 +6,7 @@ const checkSession = session({
     resave :false,
     saveUninitialized:false,
     cookie :{
-        expires :360000,
+        expires :360000*24,
     },
 })
 

@@ -23,13 +23,10 @@ const securePassword = async (password) => {
 }
 
 //for send mail 
-const sendverifyMail = async (name, email, user_id) => {
+const sendverifyMail = async (name, email,User) => {
     try {
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            requireTLS: true,
+            service:"gmail",
             auth: {
                 user: 'muhammedsoubanbi@gmail.com',
                 pass: 'abbthwilehhefrmh'
@@ -39,14 +36,15 @@ const sendverifyMail = async (name, email, user_id) => {
             from: 'muhammedsoubanbi@gmail.com',
             to: email,
             subject: 'for verification mail',
-            html: '<p>Hii' + name + ',please click here to <a href= "http://localhost:3000/verify?id=" ' + _id + '> verify </a> your email.</p>'
+            html: '<p>Hii' + name + ',please click here to <a href= "http://localhost:3000/verify?id= ' + User +'"> verify </a> your email.</p>'
         }
+        
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
             }
             else {
-                res.render('404')
+                
                 console.log("Email has been sent : -", info.response);
             }
         })
@@ -75,9 +73,7 @@ const insertUser = async (req, res) => {
                 name: req.body.name,
                 email: req.body.email,
                 mobile: req.body.mobile,
-                password: secretPassword,
-                is_admin: 0,
-                is_verified: 1
+                password: secretPassword
             })
             const userData = await user.save();
 
@@ -102,13 +98,12 @@ const insertUser = async (req, res) => {
 
 const verifymail = async (req, res) => {
     try {
-        const updateInfo = await User.updateOne({ _id: req.query.id },
-            {
-                $set: {
-                    is_verified: 1
-                }
-            })
-        res.render('email-verified')
+        const updateInfo = await User.updateOne({_id:req.query.id},
+            { $set: {
+                    is_verified: true
+                }})
+            console.log(updateInfo);
+        res.redirect('/login')
     } catch (error) {
         console.log(error.message);
     }
@@ -715,6 +710,29 @@ const orderDetails = async (req, res) => {
     }
 };
 
+const searchProducts = async (req, res) => {
+    try {
+      const search = req.body.Search;
+      const product = await Product.aggregate([
+        {
+          $match: {
+            is_deleted: false,
+            productname: { $regex: `${search}.*`, $options: "i" },
+          },
+        },
+      ]);
+  
+      const category = await Category.find({ d_status: 0 }).lean();
+      res.render("shop", {
+        category,
+        product,
+        search
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
 const invoice = async (req, res) => {
     try {
         res.render('invoice')
@@ -790,5 +808,6 @@ module.exports = {
     redeemCoupon,
     LoadShop,
     shopByCategory,
+    searchProducts,
     Sample
 }

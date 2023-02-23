@@ -50,6 +50,7 @@ user.get('/invoice',auth.isLogin,userController.invoice)
 user.get('/logout',auth.isLogin,userController.userLogout);
 user.get('/verify',auth.isLogin,userController.verifymail)
 user.get('/add-to-cart/:id',auth.isLogin,userController.AddToCart)
+user.post('/product/search',userController.searchProducts)
 user.get('/sample',userController.Sample)
 
 // user.get('*', function (req, res) {

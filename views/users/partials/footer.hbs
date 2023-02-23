@@ -12,8 +12,8 @@
                             <h5 class="title">INFORMATION</h5>
                             <ul class="footer-nav">
                                 <li><a href="#">Terms & Conditions</a></li>
-                                <li><a href="contact-us.html">Contact</a></li>
-                                <li><a href="#">Returns</a></li>
+                                <li><a href="#">Contact</a></li>
+                                {{!-- <li><a href="#">Returns</a></li> --}}
                             </ul>
                         </div>
                         <!-- End Footer Single Item -->
@@ -38,7 +38,7 @@
                             <h5 class="title">CATEGORIES</h5>
                             <ul class="footer-nav">
                                 {{#each category}}
-                                <li><a href="/category/{{categoryName}}">{{categoryName}}</a></li>
+                                <li><a href="/shop/{{categoryName}}">{{categoryName}}</a></li>
                                 {{/each}}
                             </ul>
                         </div>
@@ -93,7 +93,7 @@
                     class="row justify-content-center align-items-center align-items-center flex-column flex-md-row mb-n6">
                     <div class="col-auto mb-6">
                         <div class="footer-copyright">
-                            <p class="copyright-text">&copy; 2023 <a href="index.html">Gadget</a>.shop <i
+                            <p class="copyright-text">&copy; 2023 <a href="/home">Gadget</a>.shop <i
                                     class="fa fa-heart text-danger"></i></p>
 
                         </div>
@@ -142,7 +142,7 @@
                                     <div class="modal-add-cart-info"><i class="fa fa-check-square"></i>Added to cart
                                         successfully!</div>
                                     <div class="modal-add-cart-product-cart-buttons">
-                                        <a href="cart.html">View Cart</a>
+                                        <a href="/cart">View Cart</a>
                                         <a href="checkout.html">Checkout</a>
                                     </div>
                                 </div>

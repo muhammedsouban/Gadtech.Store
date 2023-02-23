@@ -660,6 +660,9 @@
   content: "\e08a";
   color: #c1c2c5;
 }
+.icon-user:before {
+  color: #c1c2c5;
+}
 .icon-info:before {
   content: "\e08b";
 }

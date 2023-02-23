@@ -28,7 +28,7 @@
         <div class="cart-table-wrapper" data-aos="fade-up" data-aos-delay="0">
             <div class="container">
                 <div class="row">
-                    <div class="col-9">
+                    <div class="col-md-9 col-sm-12">
                         {{#each cartData}}
                         <div class="card rounded-3 mb-4" data-aos="fade-up" data-aos-delay="200">
                             <div class="card-body p-4">
@@ -37,11 +37,11 @@
                                         <img src="/images/products/{{image.[0]}}" class="img-fluid rounded-3"
                                             alt="Cotton T-shirt">
                                     </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <div class="col-md-3 col-lg-3 col-xl-3 col-sm-3">
                                         <p class="lead fw-normal mb-2">{{productname}}</p>
                                         <p><span class="text-muted">Price: </span>{{price}} </p>
                                     </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                    <div class="col-md-3 col-lg-3 col-xl-2 col-sm-3 d-flex">
                                         <a class="btn btn-dark "
                                             onclick="this.parentNode.querySelector('input[type=number]').stepDown();validateData('{{_id}}')">
                                             <i style="color:white" class="fas fa-minus"></i>
@@ -55,11 +55,11 @@
                                             <i style="color:white" class="fas fa-plus"></i>
                                         </a>
                                     </div>
-                                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                    <div class="col-md-3 col-lg-2 col-xl-2 col-sm-2 offset-lg-1">
                                         <p id="actual_price_{{_id}}" hidden="">{{price}}</p>
                                         <h5 id="price_text_{{_id}}" class="mb-0">{{price}}</h5>
                                     </div>
-                                    <div class="col-md-1 col-lg-1 col-xl-1 ">
+                                    <div class="col-md-1 col-lg-1 col-xl-1 col-sm-1 ">
                                         <a class="btn btn-link px-0 text-danger" type="reset"
                                             onclick="RemoveItemCart('{{_id}}')">
                                             <i class="ci-close-circle "></i>
@@ -74,7 +74,7 @@
                         {{/each}}
 
                     </div>
-                  <div class="col-3">
+                  <div class="col-md-3 col-sm-12">
                         <div class="coupon_code right m-0" data-aos="fade-up" data-aos-delay="200">
                             <h3>Cart Totals</h3>
                             <div class="coupon_inner">
