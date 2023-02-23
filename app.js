@@ -5,7 +5,7 @@ const app = express();
 
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
-mongoose.connect('mongodb://127.0.0.1:27017/user-management-system', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://muhammedsoubanbi:mzee@souban.rmwzbs7.mongodb.net/?retryWrites=true&w=majority4qx', { useNewUrlParser: true });
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -30,7 +30,7 @@ app.engine('hbs', hbs.engine({
 
 
 //for user routes
-const userRoute = require('../Gadget E COmmerce/routes/user')
+const userRoute = require('./routes/user')
 app.use('/', userRoute)
 
 //for admin routes
