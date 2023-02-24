@@ -5,7 +5,7 @@ const app = express();
 
 const mongoose = require('mongoose');
 mongoose.set("strictQuery", false);
-mongoose.connect('mongodb://127.0.0.1:27017/user-management-system', { useNewUrlParser: true });
+mongoose.connect('mongodb+srv://muhammedsoubanbi:mzee@souban.rmwzbs7.mongodb.net/?retryWrites=true&w=majority', { useNewUrlParser: true });
 
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
@@ -37,6 +37,10 @@ app.use('/', userRoute)
 const adminRoute = require('./routes/admin');
 app.use('/admin', adminRoute);
 
-app.listen(3000, function () {
+app.listen(8080, function () {
   console.log('Server is running...');
+});
+
+app.use(function(req, res, next) {
+  res.status(404).render('404');
 });

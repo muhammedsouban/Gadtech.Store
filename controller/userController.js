@@ -10,7 +10,8 @@ const randomstring = require('randomstring')
 const { ObjectId } = require("mongodb");
 const session = require('express-session');
 const moment = require('moment')
-const paypal = require('paypal-rest-sdk')
+const paypal = require('paypal-rest-sdk');
+const { count } = require('../models/userModel');
 
 const securePassword = async (password) => {
     try {
@@ -18,15 +19,15 @@ const securePassword = async (password) => {
         return passwordHash;
 
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
 //for send mail 
-const sendverifyMail = async (name, email,User) => {
+const sendverifyMail = async (name, email) => {
     try {
         const transporter = nodemailer.createTransport({
-            service:"gmail",
+            service: "gmail",
             auth: {
                 user: 'muhammedsoubanbi@gmail.com',
                 pass: 'abbthwilehhefrmh'
@@ -36,20 +37,20 @@ const sendverifyMail = async (name, email,User) => {
             from: 'muhammedsoubanbi@gmail.com',
             to: email,
             subject: 'for verification mail',
-            html: '<p>Hii' + name + ',please click here to <a href= "http://localhost:3000/verify?id= ' + User +'"> verify </a> your email.</p>'
+            html: '<p>Hii' + name + ',please click here to <a href= "http://localhost:3000/verify?id= ' + email + '"> verify </a> your email.</p>'
         }
-        
+
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
             }
             else {
-                
+
                 console.log("Email has been sent : -", info.response);
             }
         })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 const loadRegister = async (req, res) => {
@@ -59,7 +60,7 @@ const loadRegister = async (req, res) => {
 
     } catch (error) {
         res.render('404')
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -81,7 +82,7 @@ const insertUser = async (req, res) => {
 
                 sendverifyMail(req.body.name, req.body.email, userData._id);
 
-                res.render('registration', { message: "Your registartion Completed." })
+                res.render('registration', { message: "Your registartion Completed Please verify on mail." })
 
             } else {
                 res.render('registartion', { error: "Your registration failed." })
@@ -91,21 +92,23 @@ const insertUser = async (req, res) => {
             res.render('registration', { error: 'Email already taken' })
         }
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
 
     }
 }
 
 const verifymail = async (req, res) => {
     try {
-        const updateInfo = await User.updateOne({_id:req.query.id},
-            { $set: {
+        const updateInfo = await User.updateOne({ email: req.query.id },
+            {
+                $set: {
                     is_verified: true
-                }})
-            console.log(updateInfo);
+                }
+            })
+        console.log(updateInfo);
         res.redirect('/login')
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -114,7 +117,7 @@ const loadLogin = async (req, res) => {
 
         res.render('Login')
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -127,7 +130,7 @@ const verifyLogin = async (req, res) => {
         if (userData) {
             const passwordMatch = await bcrypt.compare(password, userData.password);
             if (passwordMatch) {
-                if (userData.is_verified === 0) {
+                if (userData.is_verified === false) {
                     res.render('login', { message: "Please verify your mail" });
                 } else {
                     req.session.user = userData._id;
@@ -141,7 +144,7 @@ const verifyLogin = async (req, res) => {
             res.render('login', { message: "Email or Password incorrect" });
         }
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 
 }
@@ -151,10 +154,7 @@ let orderItems = []
 const resetPasswordMail = async (name, email, token) => {
     try {
         const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            requireTLS: true,
+            service: "gmail",
             auth: {
                 user: 'muhammedsoubanbi@gmail.com',
                 pass: 'abbthwilehhefrmh'
@@ -177,7 +177,7 @@ const resetPasswordMail = async (name, email, token) => {
             }
         })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 const forgetLoad = async (req, res) => {
@@ -185,7 +185,7 @@ const forgetLoad = async (req, res) => {
     try {
         res.render('forget-password');
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -208,7 +208,7 @@ const forgetVerify = async (req, res) => {
             res.render('forget-password', { message: "User email is incorrect" })
         }
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -225,7 +225,7 @@ const forgetPassword = async (req, res) => {
         }
 
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -234,12 +234,11 @@ const resetPassword = async (req, res) => {
     try {
         const password = req.body.password;
         const email = req.body.email;
-
         const secure_Password = await securePassword(password);
         const updatedData = await User.updateOne({ email: email }, { $set: { password: secure_Password, token: '' } });
         res.redirect('/');
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 
 }
@@ -274,27 +273,27 @@ const loadHome = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
 const shopByCategory = async (req, res) => {
     try {
         const product = await Product.find({ category: req.params.name }).lean()
-        const category = await Category.find({d_status:0}).lean()
+        const category = await Category.find({ d_status: 0 }).lean()
         console.log(product);
-        res.render('shop', { product, category,categ: req.params.name })
+        res.render('shop', { product, category, categ: req.params.name })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 const LoadShop = async (req, res) => {
     try {
         const product = await Product.find().lean()
-        const category = await Category.find({d_status:0}).lean()
+        const category = await Category.find({ d_status: 0 }).lean()
         res.render('shop', { product, category })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -309,7 +308,7 @@ const productView = async (req, res) => {
                 User: req.session.user
             })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -322,7 +321,7 @@ const profile = async (req, res) => {
             User: req.session.user
         })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 
 }
@@ -340,7 +339,7 @@ const UpdateProfile = async (req, res) => {
 
         res.redirect('/profile')
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -357,7 +356,7 @@ const DeleteAddress = async (req, res) => {
         res.redirect('/profile')
 
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -366,7 +365,7 @@ const LoadAddAddress = async (req, res) => {
     try {
         res.render('add-address', { User: req.session.user })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 const AddAddress = async (req, res) => {
@@ -383,7 +382,7 @@ const AddAddress = async (req, res) => {
 
         res.redirect('/profile')
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -395,7 +394,7 @@ const EditAddress = async (req, res) => {
         })
 
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
 
     }
 }
@@ -407,10 +406,9 @@ const AddToCart = async (req, res) => {
                 Cart: ObjectId(req.params.id)
             }
         })
-
         res.redirect('/cart')
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -440,7 +438,7 @@ const LoadCart = async (req, res) => {
             User: req.session.user
         })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -452,7 +450,7 @@ const RemoveItemCart = async (req, res) => {
         res.json('Success')
     } catch (error) {
         res.json("Something went wrong")
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -493,7 +491,7 @@ const Loadcheckout = async (req, res) => {
                 checkout: checkout[0]
             })
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 
@@ -565,7 +563,8 @@ const checkoutFunc = async (userId, selectedMethod, selectedAdress, total) => {
     const result = Math.random().toString(36).substring(2, 7);
     const id = Math.floor(100000 + Math.random() * 900000);
     const orderId = result + id;
-    const datetime = new Date().toISOString();
+    const datetime = moment();
+        const date = datetime.format('dddd,MMMM Do YYYY')
     let method = "";
 
     const createCart = cart.map(async (item, i) => {
@@ -592,7 +591,7 @@ const checkoutFunc = async (userId, selectedMethod, selectedAdress, total) => {
         userId: userId,
         Products: productDetails,
         orderId: orderId,
-        date: datetime,
+        date: date,
         status: "Pending",
         payment_method: method,
         total: total,
@@ -636,10 +635,13 @@ const LoadOrders = async (req, res) => {
     const userData = await Order.aggregate([
         {
             $match: { userId: ObjectId(req.session.user) },
+        }, {
+            $lookup: { from: 'products', localField: 'Products._id', foreignField: '_id', as: 'prolist' }
         }
-    ]).sort({_id:-1})
+    ]).sort({ _id: -1 })
+    
     const orderData = await Promise.all(userData.map(async (item) => {
-        
+
         const Address = await User.findOne({ _id: ObjectId(req.session.user) }, {
             Address: {
                 $elemMatch: { _id: item.addressId }
@@ -654,14 +656,17 @@ const LoadOrders = async (req, res) => {
             status: item.status,
             Address: Address.Address,
             _id: item._id,
-            total:item.total,
+            total: item.total,
+            prolist: item.prolist,
+            count: item.prolist.length - 1 
+            
         }
-    }))
-console.log(orderData);
+    })) 
+   
     res.render("order", {
         orderData,
-        User: req.session.user
-    });
+        User: req.session.user,
+    });                 
 };
 
 
@@ -687,7 +692,7 @@ const cancelOrder = async (req, res) => {
 //Order Details
 const orderDetails = async (req, res) => {
     try {
-        const orderData = await Order.aggregate([{ $match: { orderId: req.params.id } },
+        let orderData = await Order.aggregate([{ $match: { orderId: req.params.id } },
         {
             $lookup: {
                 from: 'products',
@@ -695,15 +700,27 @@ const orderDetails = async (req, res) => {
                 foreignField: '_id',
                 as: 'NewOrders'
             }
+        },
+        {
+            $lookup: {
+                from: 'users',
+                localField: 'userId',
+                foreignField: '_id',
+                as: 'UserData'
+            }
         }
         ])
-        // const address = await User.find(
-        //     { "Address._id": order[0].addressId },
-        //     { _id: 0, address: { $elemMatch: { id: order[0].addressId } } }
-        // ).lean();
-        console.log(orderData);
+        let Address
+        let userData = await User.find({ _id: ObjectId(req.session.user) }).lean()
+        userData[0].Address.forEach((item) => {
+            if (item._id == String(orderData[0]?.addressId))
+                Address = item
+
+        })
+
         res.render("orderDetails", {
             orderDetails: orderData,
+            address: Address
         });
     } catch (error) {
         console.log(error);
@@ -712,26 +729,26 @@ const orderDetails = async (req, res) => {
 
 const searchProducts = async (req, res) => {
     try {
-      const search = req.body.Search;
-      const product = await Product.aggregate([
-        {
-          $match: {
-            is_deleted: false,
-            productname: { $regex: `${search}.*`, $options: "i" },
-          },
-        },
-      ]);
-  
-      const category = await Category.find({ d_status: 0 }).lean();
-      res.render("shop", {
-        category,
-        product,
-        search
-      });
+        const search = req.body.Search;
+        const product = await Product.aggregate([
+            {
+                $match: {
+                    is_deleted: false,
+                    productname: { $regex: `${search}.*`, $options: "i" },
+                },
+            },
+        ]);
+
+        const category = await Category.find({ d_status: 0 }).lean();
+        res.render("shop", {
+            category,
+            product,
+            search
+        });
     } catch (error) {
-      console.log(error);
+        console.log(error);
     }
-  };
+};
 
 const invoice = async (req, res) => {
     try {
@@ -762,16 +779,16 @@ const userLogout = async (req, res) => {
         req.session.destroy();
         res.redirect('/');
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 
 }
 
-const Sample = async (req,res)=>{
+const Sample = async (req, res) => {
     try {
         res.render('sample')
     } catch (error) {
-        console.log(error.message);
+        res.render('404',error.message)
     }
 }
 

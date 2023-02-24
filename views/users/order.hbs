@@ -24,44 +24,49 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-lg-12 ">
                 {{#each orderData}}
-                
+
                 <div class="card mb-2" style="border-radius: 10px;">
                     <div class="card-header d-flex justify-content-between align-items-center px-4 py-5">
-                        <h5 class="text-muted mb-0">OrderID : <span
-                                style="color: #a8729a;">{{orderId}}</span>
+                        <h5 class="text-muted mb-0">OrderID : <span style="color: #a8729a;">{{orderId}}</span>
                         </h5>
-                         <h5 class="text-muted mb-0">Date : <span
-                                style="color: #a8729a;">{{date}}</span>
+                        <h5 class="text-muted mb-0">Date : <span style="color: #a8729a;">{{date}}</span>
                         </h5>
-                        
+
                     </div>
-                    
+
                     <div class="card-body p-4">
-                      
+
                         <div class="card shadow-0 border mb-4">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp"
+                                        <img src="/images/products/{{prolist.0.image.[0]}}"
                                             class="img-fluid" alt="Phone">
                                     </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0">Samsung Galaxy</p>
+                                    <div class="col-md-2 text-center  justify-content-center align-items-center">
+                                        <p class="text-muted mb-0"> {{prolist.0.productname}}</p>
+                                        {{#if count}}
+                                     
+                                        <p class="text-muted mb-0"> And <b>{{count}}</b> More product</p>
+
+                                        {{/if}}
+
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">White</p>
+                                        {{!-- <p class="text-muted mb-0 small">White</p> --}}
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <b>Status :</b>
                                         <p class="text-muted mb-0 small">{{status}}</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Qty: {{total}}</p>
+                                        <p class="text-muted mb-0 small">
+                                            <b> Total : </b>{{total}}</p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <a href="/orders-details/{{orderId}}" class="btn btn-dark text-white">Order Details</a>
+                                        <a href="/orders-details/{{orderId}}" class="btn btn-dark text-white">Order
+                                            Details</a>
                                     </div>
-                                   
                                 </div>
                             </div>
                         </div>
