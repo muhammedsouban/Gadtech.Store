@@ -1,0 +1,100 @@
+<style>
+	.otp-form .otp-field {
+		display: inline-block;
+		width: 4rem;
+		height: 4rem;
+		font-size: 2rem;
+		line-height: 4rem;
+		text-align: center;
+		border: none;
+		border-bottom: 2px solid rgb(0, 0, 0);
+		{{!-- border-right: 1px solid rgb(0, 0, 0);
+		border-top: 1px solid rgb(0, 0, 0);
+		border-left: 1px solid rgb(0, 0, 0); --}}
+
+		outline: none;
+	}
+
+	.otp-form .otp-field:focus {
+		border-bottom-color: rgb(255, 0, 0);
+		{{!-- border-right-color: rgb(255, 0, 0);
+		border-top-color: rgb(255, 0, 0);
+		border-left-color: rgb(255, 0, 0); --}}
+
+	}
+
+	@media (min-width: 576px) {}
+</style>
+<div class="container">
+	<div class="row justify-content-center align-items-center " style="margin-top:100px">
+		<div class="card col-12 col-md-8 col-lg-7 col-sm-6 p-4">
+			<div class="card-body">
+				<h4 class="card-title text-center">OTP Verification</h4>
+				<H6 class="text-center text-success">Please Check mail for OTP</H6>
+				<div class="card-text text-center mt-5">
+					<form action="" method="post" class="otp-form">
+						<input class="otp-field" type="text" name="opt-field[]" maxlength=1>
+						<input class="otp-field" type="text" name="opt-field[]" maxlength=1>
+						<input class="otp-field" type="text" name="opt-field[]" maxlength=1>
+						<input class="otp-field" type="text" name="opt-field[]" maxlength=1>
+						<input class="otp-field" type="text" name="opt-field[]" maxlength=1>
+						<input class="otp-field" type="text" name="opt-field[]" maxlength=1>
+
+						<!-- Store OTP Value -->
+						<input class="otp-value" type="hidden" name="optvalue">
+						{{#if error}}
+						{{!-- <div style="background-color: red;color: white;" class="alert alert-danger mt-4"
+							role="alert"> --}}
+
+							<p class="text-danger">{{error}}</p>
+							{{!--
+						</div> --}}
+						         {{/if}}
+						<div class="d-block mt-3">
+							<button class="btn btn-dark btn-block text-white" type="submit">Verify</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script>
+	$(document).ready(function () {
+		$(".otp-form *:input[type!=hidden]:first").focus();
+		let otp_fields = $(".otp-form .otp-field"),
+			otp_value_field = $(".otp-form .otp-value");
+		otp_fields
+			.on("input", function (e) {
+				$(this).val(
+					$(this)
+						.val()
+						.replace(/[^0-9]/g, "")
+				);
+				let opt_value = "";
+				otp_fields.each(function () {
+					let field_value = $(this).val();
+					if (field_value != "") opt_value += field_value;
+				});
+				otp_value_field.val(opt_value);
+			})
+			.on("keyup", function (e) {
+				let key = e.keyCode || e.charCode;
+				if (key == 8 || key == 46 || key == 37 || key == 40) {
+					// Backspace or Delete or Left Arrow or Down Arrow
+					$(this).prev().focus();
+				} else if (key == 38 || key == 39 || $(this).val() != "") {
+					// Right Arrow or Top Arrow or Value not empty
+					$(this).next().focus();
+				}
+			})
+			.on("paste", function (e) {
+				let paste_data = e.originalEvent.clipboardData.getData("text");
+				let paste_data_splitted = paste_data.split("");
+				$.each(paste_data_splitted, function (index, value) {
+					otp_fields.eq(index).val(value);
+				});
+			});
+	});
+
+</script>

@@ -46,12 +46,12 @@ user.post('/place/order',auth.isLogin ,userController.orderPlacement)
 user.get('/orders' ,auth.isLogin,userController.LoadOrders)
 user.delete('/cancel-order/:id',auth.isLogin ,userController.cancelOrder)
 user.get('/orders-details/:id' ,auth.isLogin,userController.orderDetails)
-user.get('/invoice',auth.isLogin,userController.invoice)
 user.get('/logout',auth.isLogin,userController.userLogout);
-user.get('/verify',auth.isLogin,userController.verifymail)
+user.get('/userotpverify',userController.LoadOtp)
+user.post('/userotpverify',userController.verifyOTP)
 user.get('/add-to-cart/:id',auth.isLogin,userController.AddToCart)
 user.post('/product/search',userController.searchProducts)
-user.get('/sample',userController.Sample)
+// user.get('/sample',userController.Sample)
 
 // user.get('*', function (req, res) {
 //   res.render('404');

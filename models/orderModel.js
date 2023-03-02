@@ -16,7 +16,7 @@ const orderSchema = new Schema({
         //  required: true
     },
     date: {
-        type: String,
+        type: Date,
         required: true
     },
     status: {  //1-processing, 2-dispatched,3-out for delivery,3-delievered,4-failed,5-cancelled

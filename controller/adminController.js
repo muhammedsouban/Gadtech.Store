@@ -83,7 +83,6 @@ const revenueReport = async (req, res) => {
                 total: item.total
             }
         })
-console.log(data);
         res.json({
             monthWiseRevenue: monthWiseRevenue,
             categoryRevenue: data,
@@ -97,14 +96,14 @@ console.log(data);
 const salesReport = async (req, res) => {
     try {
         const orderData = await order.find().lean()
-        res.render('sales-report', { orderData,adminData:req.session.admin  })
+        res.render('sales-report', { orderData, adminData: req.session.admin })
     } catch (error) {
         console.log(error.message);
     }
 }
+
 const loadDashboard = async (req, res) => {
     try {
-
         const adminData = await Admin.findOne({ email: req.session.admin });
         const userData = await user.find({ block: false }).count()
         const productData = await Product.find({ is_deleted: false }).count()
@@ -121,7 +120,6 @@ const loadDashboard = async (req, res) => {
                 "TotalAmount": '$total'
             }
         }]);
-
         const a = revenue.length >= 1 ? revenue[0].TotalAmount : 0
         res.render("home", { adminData, userData, productData, orderData, revenue: a });
     } catch (error) {
@@ -146,7 +144,6 @@ const Addproductsload = async (req, res) => {
     try {
         const CategoryData = await Category.find({ d_status: 0 }).lean()
         res.render("add-products", { CategoryData, adminData: req.session.admin })
-        console.log(CategoryData);
     }
     catch (error) { console.log(error.messasge) }
 }
@@ -160,7 +157,6 @@ const Addproduct = async (req, res) => {
             return file.filename;
         })
         const product = new Product({
-
             productname: productname,
             category: category,
             brand: brand,
@@ -183,7 +179,6 @@ const Addproduct = async (req, res) => {
 const products = async (req, res) => {
     try {
         const productData = await Product.find({ is_deleted: false }).lean()
-
         res.render('products', { productData, adminData: req.session.admin })
     } catch (error) {
         console.log(error.message);
@@ -196,18 +191,16 @@ const editProduct = async (req, res) => {
         const productData = await Product.find({ _id: ObjectId(req.params.id) }).lean()
         const categoryData = await Category.find().lean()
         res.render('edit-products', { productData, categoryData, adminData: req.session.admin })
-
     }
     catch (error) { console.log(error.message) }
 }
+
 const updateProduct = async (req, res) => {
     try {
         const { productname, category, brand, quantity, description, price, status } = req.body
-
         const images = req.files.map((file) => {
             return file.filename;
         })
-
         if (images.length >= 1) {
             const productData = await Product.updateOne({ _id: ObjectId(req.body.id) }, {
                 $set: {
@@ -234,14 +227,11 @@ const updateProduct = async (req, res) => {
                 }
             })
         }
-
-
         res.redirect('/admin/products')
     } catch (error) {
         console.log(error.message);
     }
 }
-
 
 //delete Product
 const deleteProduct = async (req, res) => {
@@ -253,11 +243,9 @@ const deleteProduct = async (req, res) => {
 }
 
 //Categorylist
-
 const categoryList = async (req, res) => {
     try {
         const categoryData = await Category.find({ d_status: 0 }).lean()
-
         res.render('categorylist', { categoryData, adminData: req.session.admin })
     } catch (error) {
         console.log(error.message);
@@ -270,26 +258,22 @@ const addCategory = async (req, res) => {
         if (checkCategory == null) {
             const { categoryName, categoryOffer } = req.body
             const category = new Category({
-
                 categoryName: categoryName,
                 image: req.file.filename,
                 categoryOffer: categoryOffer
-
             });
-
             const categoryData = await category.save();
-
             if (categoryData) {
                 res.redirect('/admin/categorylist');
             }
             else { res.render('add-category', { error: 'Something went Wrong !!' }); }
-
         } else {
             res.render('add-category', { error: 'Category Already Exist', adminData: req.session.admin })
         }
     }
     catch (error) { console.log(error.message) }
 }
+
 const LoadaddCategory = async (req, res) => {
     try {
         res.render('add-category', { adminData: req.session.admin })
@@ -301,7 +285,6 @@ const LoadaddCategory = async (req, res) => {
 const EditCategory = async (req, res) => {
     try {
         const categoryData = await Category.find({ _id: ObjectId(req.params.id) }).lean()
-
         res.render("Edit-Category", { categoryData, adminData: req.session.admin })
     } catch (error) {
         console.log(error.message);
@@ -310,7 +293,6 @@ const EditCategory = async (req, res) => {
 
 const updateCategory = async (req, res) => {
     try {
-
         const { categoryName, categoryOffer } = req.body
         if (req.file) {
             const CategoryData = await Category.updateOne({ _id: ObjectId(req.body.id) }, {
@@ -328,9 +310,7 @@ const updateCategory = async (req, res) => {
                 }
             })
         }
-
         res.redirect('/admin/category-list')
-
     } catch (error) {
         console.log(error.message);
     }
@@ -353,6 +333,7 @@ const LoadAllUsers = async (req, res) => {
         console.log(error.message)
     }
 }
+
 const BlockUser = async (req, res) => {
     try {
         const data = await user.findOne({ _id: ObjectId(req.params.id) })
@@ -366,9 +347,9 @@ const BlockUser = async (req, res) => {
     }
     catch (error) { console.log(error.message) }
 }
+
 const UnblockUser = async (req, res) => {
     try {
-
         const userData = await user.updateOne({ _id: ObjectId(req.params.id) }, {
             $set: {
                 block: false
@@ -389,9 +370,8 @@ const Orderlist = async (req, res) => {
                     foreignField: '_id',
                     as: 'NewOrders'
                 }
-            }
+            }, { $sort: { _id: -1 } }
         ])
-
         res.render('orderlist', {
             adminData: req.session.admin,
             orderData
@@ -400,6 +380,7 @@ const Orderlist = async (req, res) => {
         console.log(error.message);
     }
 }
+
 const viewOrder = async (req, res) => {
     const orderData = await order.aggregate([{ $match: { orderId: req.params.id } },
     {

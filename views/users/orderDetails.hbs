@@ -39,7 +39,7 @@
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <p class="lead fw-normal mb-0" style="color: #a8729a;">OrderID :{{orderId}} </p>
 
-                        <p class="text-muted mb-0">Invoice Date : {{date}}</p>
+                        <p class="text-muted mb-0">Invoice Date : {{formatDate date "short"}}</p>
 
 
                     </div>
@@ -61,7 +61,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <img <img src="/images/products/{{image.[0]}}" class="img-fluid" alt="">
+                                        <img src="/images/products/{{image.[0]}}" class="img-fluid" alt="">
 
                                     </div>
                                     <div class="col-md-2  d-flex justify-content-center align-items-center">
@@ -70,16 +70,17 @@
                                         </p>
 
                                     </div>
+                                       <div
+                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        {{!-- <p class="text-muted mb-0 small">Capacity: 64GB</p> --}}
+                                    </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0 small">{{description}}</p>
                                     </div>
-                                    {{!-- <div
-                                        class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Capacity: 64GB</p>
-                                    </div> --}}
+                                 
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Qty : <b>{{../Products.[0].quantity}}</b>
-                                        </p>
+                                        {{!-- <p class="text-muted mb-0 small">Qty : <b>{{../Products.[0].quantity}}</b>
+                                        </p> --}}
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
                                         <p class="text-muted mb-0 small"> Price : <strong>{{price}}</strong></p>
@@ -146,7 +147,7 @@
                 </div>
             </div>
         </div>
-
+</div>
         {{/each}}
 
     </div>

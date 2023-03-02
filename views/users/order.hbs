@@ -29,7 +29,7 @@
                     <div class="card-header d-flex justify-content-between align-items-center px-4 py-5">
                         <h5 class="text-muted mb-0">OrderID : <span style="color: #a8729a;">{{orderId}}</span>
                         </h5>
-                        <h5 class="text-muted mb-0">Date : <span style="color: #a8729a;">{{date}}</span>
+                        <h5 class="text-muted mb-0">Date : <span style="color: #a8729a;">{{formatDate date "short"}}</span>
                         </h5>
 
                     </div>
@@ -43,7 +43,8 @@
                                         <img src="/images/products/{{prolist.0.image.[0]}}"
                                             class="img-fluid" alt="Phone">
                                     </div>
-                                    <div class="col-md-2 text-center  justify-content-center align-items-center">
+                                    <div class="col-md-2 text-center d-flex  justify-content-center align-items-center">
+                                        
                                         <p class="text-muted mb-0"> {{prolist.0.productname}}</p>
                                         {{#if count}}
                                      

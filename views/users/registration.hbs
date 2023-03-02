@@ -1,124 +1,247 @@
+<section style="background-color: #ECECEC;height:max-content;margin-top:100px">
+	<div class="container h-100">
+		<div class="row d-flex justify-content-center align-items-center h-100">
+			<div class="col-12 col-md-9 col-lg-7 col-xl-6">
+				<div class="card" style="border-radius: 15px;">
+					<div class="card-body p-5">
+						<h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-
-<section class="vh-100" style="background-color: #ECECEC;">
-		<div class="mask d-flex align-items-center">
-			<div class="container h-100">
-				<div class="row d-flex justify-content-center align-items-center h-100">
-					<div class="col-12 col-md-9 col-lg-7 col-xl-6">
-						<div class="card" style="border-radius: 15px;">
-							<div class="card-body p-5">
-								<h2 class="text-uppercase text-center mb-5">Create an account</h2>
-
-								{{#if message}}
-                        <div class="alert alert-success" role="alert">
-                            {{message}}
-                        </div>
-                    {{else if error}}
-                        <div class="alert alert-danger" role="alert">
-                            {{error}}
-                        </div>
-                    {{/if}}
-
-								<form action="" method="POST">
-
-									<div class="form-outline mb-3">
-										<input type="text" name="name" class="form-control form-control-lg" required/>
-										<label class="form-label" >FullName</label>
-									</div>
-
-									<div class="form-outline  mb-3">
-										<input type="email" name="email"  class="form-control form-control-lg" required/>
-										<label class="form-label">Email</label>
-									</div>
-									<div class="form-outline mb-3">
-										<input type="text" name="mobile" class="form-control form-control-lg" required/>
-										<label class="form-label">Phone Number</label>
-									</div>
-									<div class="form-outline mb-3">
-										<input type="password" name="password" class="form-control form-control-lg" required/>
-										<label class="form-label" >Password</label>
-									</div>
-									<div class="form-outline mb-3">
-										<input type="password" class="form-control form-control-lg" required/>
-										<label class="form-label" for="form3Example4cg">Confirm Password</label>
-									</div>
-
-									<div class="form-check d-flex justify-content-center mb-4">
-										<input class="form-check-input me-2" type="checkbox" value="" />
-										<label class="form-check-label">
-											I agree all statements in <a href="#!" class="text-body"><u>Terms of
-													service</u></a>
-										</label>
-									</div>
-
-									<div class="d-flex justify-content-center">
-										<button type="submit" class="btn btn-block btn-lg"
-											style="background-color: #282828;"><span
-											style="color: white;">Signup</span></button>
-									</div>
-									
-
-									<p class="text-center text-muted mt-4 mb-0">Have already an account? <a href="/login"
-											class="fw-bold text-body"><u>Login here</u></a></p>
-
-								</form>
-
-							</div>
+						{{#if message}}
+						<div class="alert alert-success" role="alert">
+							{{message}}
 						</div>
+						{{else if error}}
+						<div class="alert alert-danger" role="alert">
+							{{error}}
+						</div>
+						         {{/if}}
+
+						<form action="" method="POST">
+							<span style="color: red;" id="name-error" class="disappear"></span>
+							<div class="form-outline mb-3">
+								<input type="text" id="name" name="name" onkeyup="validateName()"
+									class="form-control form-control-lg" required />
+								<label class="form-label">FullName</label>
+							</div>
+							<span style="color: red;" id="email-error" class="disappear"></span>
+							<div class="form-outline  mb-3">
+								<input type="email" id="email" name="email" onkeyup=" validateEmail()"
+									class="form-control form-control-lg" required />
+								<label class="form-label">Email</label>
+							</div>
+							<span style="color: red;" id="phone-error" class="disappear"></span>
+							<div class="form-outline mb-3">
+								<input type="text" name="mobile" id="phone" onkeyup=" validatePhone()"
+									class="form-control form-control-lg" required />
+								<label class="form-label">Phone Number</label>
+							</div>
+							<span id="pw1-error" style="color: red;" class="disappear"></span>
+							<div class="form-outline mb-3">
+								<input type="password" id="password1" onkeyup="validatePassword()" name="password"
+									class="form-control form-control-lg" required />
+								<label class="form-label">Password</label>
+							</div>
+							<span style="color: red;" id="confirm-error" class="disappear"></span>
+							<div class="form-outline mb-3">
+								<input type="password" id="password2" onkeyup="validateConfirmPwd()"
+									class="form-control form-control-lg" required />
+								<label class="form-label" for="form3Example4cg">Confirm
+									Password</label>
+							</div>
+
+							<div class="form-check d-flex justify-content-start mb-4">
+								<input class="form-check-input me-2" type="checkbox" onclick="myFunction()" />
+								<label class="form-check-label">
+									Show Password</a>
+								</label>
+							</div>
+							<br><span style="color: red;" id="submit-error"></span>
+
+							<div class="d-flex justify-content-center ">
+								<button type="submit" class="btn btn-block btn-lg" onclick="return validateForm()"
+									style="background-color: #282828;"><span
+										style="color: white;">Signup</span></button>
+							</div>
+
+
+							<p class="text-center text-muted mt-4 mb-0">Have already an account? <a href="/login"
+									class="fw-bold text-body"><u>Login here</u></a></p>
+
+						</form>
+
 					</div>
 				</div>
 			</div>
 		</div>
-	</section>
-	
-{{!-- <section class="vh-100" style="background-color: #9A616D;">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col col-xl-10">
-        <div class="card" style="border-radius: 1rem;">
-          <div class="row g-0">
-            <div class="col-md-6 col-lg-5 d-none d-md-block">
-              <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
-                alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
-            </div>
-            <div class="col-md-6 col-lg-7 d-flex align-items-center">
-              <div class="card-body p-4 p-lg-5 text-black">
+	</div>
+	</div>
+</section>
 
-                <form>
+<script>
+	// for hide a san after 5 seconds
+	$.fn.delayedHide = function (delay) {
+		var that = this;
+		window.setTimeout(function () {
+			that.hide();
+		}, delay || 4000);
+		return that;
+	}
 
-                  <div class="d-flex align-items-center mb-3 pb-1">
-                    <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
-                    <span class="h1 fw-bold mb-0">Logo</span>
-                  </div>
+	//(".disappear").delayedHide(); 
+	$(".disappear1").delayedHide();
 
-                  <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
+	// form validation%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-                  <div class="form-outline mb-4">
-                    <input type="email" id="form2Example17" class="form-control form-control-lg" />
-                    <label class="form-label" for="form2Example17">Email address</label>
-                  </div>
+	var nameError = document.getElementById('name-error')
+	var emailError = document.getElementById('email-error')
+	var phoneError = document.getElementById('phone-error')
+	var passwordError = document.getElementById('pw1-error')
+	var passwordConfirmError = document.getElementById('confirm-error')
 
-                  <div class="form-outline mb-4">
-                    <input type="password" id="form2Example27" class="form-control form-control-lg" />
-                    <label class="form-label" for="form2Example27">Password</label>
-                  </div>
+	var submitError = document.getElementById('submit-error')
 
-                  <div class="pt-1 mb-4">
-                    <button class="btn btn-dark btn-lg btn-block" type="button">Login</button>
-                  </div>
 
-                  <a class="small text-muted" href="#!">Forgot password?</a>
-                  <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a href="#!"
-                      style="color: #393f81;">Register here</a></p>
-                  <a href="#!" class="small text-muted">Terms of use.</a>
-                  <a href="#!" class="small text-muted">Privacy policy</a>
-                </form>
+	// function for validating the input field  
+	function validateName() {
+		var name = document.getElementById('name').value
+		if (name.length == 0) {
+			nameError.innerHTML = 'Name required'
+			return false
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section> --}}
+		}
+		if (!name.match(/(^[a-zA-Z][a-zA-Z\s]{0,20}[a-zA-Z]$)/)) {  // condition for checking full name or not 
+			nameError.innerHTML = 'Enter Your name'    // assiging the error message to nameError variable
+			return false
+
+		}
+		nameError.innerHTML = ''
+		return true
+	}
+
+	function validateEmail() {
+		var email = document.getElementById("email").value;
+
+		if (email.length == 0) {
+			emailError.innerHTML = "Email is required"
+			return false;
+		}
+		if (!email.match(/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/)) {
+			emailError.innerHTML = "Email is invalid"
+			return false
+		}
+		emailError.innerHTML = ''
+		return true
+
+	}
+	function validatePhone() {
+		var phone = document.getElementById("phone").value
+		if (phone.length == 0) {
+			phoneError.innerHTML = "Mobile Number is required";
+			return false;
+		}
+		if (!phone.match(/^[6-9][0-9]{9}$/)) {
+			phoneError.innerHTML = "Mobile Number is invalid";
+			return false
+		}
+		phoneError.innerHTML = ''
+		return true
+	}
+	function validatePassword() {
+		var pw1 = document.getElementById("password1").value;
+
+		if (pw1 == "") {
+			passwordError.innerHTML = "Enter the password please!";
+			return false;
+		}
+		if (pw1.length < 8) {
+			passwordError.innerHTML = "Minimum 8 characters";
+			return false;
+		}
+		if (pw1.length > 15) {
+			passwordError.innerHTML = "Maximum 15 characters";
+			return false;
+		}
+		passwordError.innerHTML = '';
+		return true;
+	}
+	function validateConfirmPwd() {
+		var pw1 = document.getElementById("password1").value;
+		var pw2 = document.getElementById("password2").value;
+		if (pw2 == "" || pw2 != pw1 || pw2.length < 8 || pw2.length > 15) {
+			passwordConfirmError.innerHTML = "Password did not match!";
+			return false;
+		}
+		passwordConfirmError.innerHTML = ''
+		return true;
+	}
+
+	function validateForm() {
+		if (!validateConfirmPwd() || !validateName() || !validateEmail() || !validateSubject() || !validateMessage() || !validatePassword() || !validatePhone()) {
+
+			submitError.innerHTML = 'Please fill the form!'
+			submitError.style.display = 'block';
+			setTimeout(function () { submitError.style.display = 'none'; }, 3000);
+			return false
+		}
+		return true
+	}
+
+	/888888888/
+
+	const togglePassword = document.querySelector('#togglePassword');
+	const password = document.querySelector('#pw');
+	togglePassword.addEventListener('click', function (e) {
+		// toggle the type attribute
+		const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+		password.setAttribute('type', type);
+		// toggle the eye / eye slash icon
+		this.classList.toggle('bi-eye');
+	});
+
+	// const togglePassword2 = document.querySelector('#togglePassword2');
+	// const password2 = document.querySelector('#password2');
+	// togglePassword2.addEventListener('click', function (e) {
+	//     // toggle the type attribute
+	//     const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+	//     password.setAttribute('type', type);
+	//     // toggle the eye / eye slash icon
+	//     this.classList.toggle('bi-eye');
+	// });
+
+
+	// function myFunction() {
+	//     var x = document.getElementById("password1");
+
+
+	//     if (x.type === "password") {
+	//         x.type = "text";
+	//     } else {
+	//         x.type = "password";
+	//     }
+	// }
+
+	function myFunction() {
+		var y = document.getElementById("password1");
+		if (y.type === "password") {
+			y.type = "text";
+		} else {
+			y.type = "password";
+		}
+	};
+	function myFunction2() {
+		var x = document.getElementById("pw");
+		if (x.type === "password") {
+			x.type = "text";
+		} else {
+			x.type = "password";
+		}
+	};
+	function myFunction3() {
+		var a = document.getElementById("yourPassword");
+		if (a.type === "password") {
+			a.type = "text";
+		} else {
+			a.type = "password";
+		}
+	};
+</script>

@@ -11,20 +11,26 @@ const { ObjectId } = require("mongodb");
 const session = require('express-session');
 const moment = require('moment')
 const paypal = require('paypal-rest-sdk');
-const { count } = require('../models/userModel');
+
+let count = 0
+const counts = async (data) => {
+    const cartData = await User.find({ _id: data }).lean()
+    if (cartData) {
+        count = cartData[0].Cart.length
+    }
+}
 
 const securePassword = async (password) => {
     try {
         const passwordHash = await bcrypt.hash(password, 10)
         return passwordHash;
-
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 //for send mail 
-const sendverifyMail = async (name, email) => {
+const sendverifyMail = async (name, email, otp, User) => {
     try {
         const transporter = nodemailer.createTransport({
             service: "gmail",
@@ -37,38 +43,37 @@ const sendverifyMail = async (name, email) => {
             from: 'muhammedsoubanbi@gmail.com',
             to: email,
             subject: 'for verification mail',
-            html: '<p>Hii' + name + ',please click here to <a href= "http://localhost:3000/verify?id= ' + email + '"> verify </a> your email.</p>'
+            html: '<p>Hii' + name + ',Your OTP is : ' + otp + '</p>'
         }
-
         transporter.sendMail(mailOptions, function (error, info) {
             if (error) {
                 console.log(error);
             }
             else {
-
-                console.log("Email has been sent : -", info.response);
+                res.render('otp-page')
             }
         })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 const loadRegister = async (req, res) => {
     try {
-
-        res.render('registration');
-
+        const category = await Category.find({ d_status: 0 }).lean()
+        res.render('registration', { category });
     } catch (error) {
-        res.render('404')
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const insertUser = async (req, res) => {
-
     try {
         const secretPassword = await securePassword(req.body.password)
         const checkUser = await User.findOne({ email: req.body.email })
+        function generateOTP() {
+            return Math.floor(100000 + Math.random() * 900000);
+        }
+        const otp = generateOTP();
         if (checkUser == null) {
             const user = new User({
                 name: req.body.name,
@@ -77,13 +82,10 @@ const insertUser = async (req, res) => {
                 password: secretPassword
             })
             const userData = await user.save();
-
             if (userData) {
-
-                sendverifyMail(req.body.name, req.body.email, userData._id);
-
-                res.render('registration', { message: "Your registartion Completed Please verify on mail." })
-
+                const updatedData = await User.updateOne({ email: req.body.email }, { $set: { token: otp } });
+                sendverifyMail(req.body.name, req.body.email, otp, userData._id);
+                res.redirect('/userotpverify?id=' + userData._id);
             } else {
                 res.render('registartion', { error: "Your registration failed." })
             }
@@ -92,37 +94,44 @@ const insertUser = async (req, res) => {
             res.render('registration', { error: 'Email already taken' })
         }
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
 
-    }
-}
-
-const verifymail = async (req, res) => {
-    try {
-        const updateInfo = await User.updateOne({ email: req.query.id },
-            {
-                $set: {
-                    is_verified: true
-                }
-            })
-        console.log(updateInfo);
-        res.redirect('/login')
-    } catch (error) {
-        res.render('404',error.message)
     }
 }
 
 const loadLogin = async (req, res) => {
     try {
-
-        res.render('Login')
+        const category = await Category.find({ d_status: 0 }).lean()
+        res.render('Login', { category })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
+    }
+}
+
+const verifyOTP = async (req, res) => {
+    try {
+        const category = await Category.find({ d_status: 0 }).lean()
+        const userData = await User.findOne({ _id: req.query.id });
+        if (req.body.optvalue === userData.token) {
+            const verify = await User.updateOne({
+                email: userData.email
+            }, {
+                $set: {
+                    is_verified: true
+                }
+            });
+            res.render('login', { message: 'verified Successfully please Login', category })
+        } else {
+            res.render('otp-page', {
+                error: "invalid otp please check and retry", category
+            })
+        }
+    } catch (error) {
+        console.log(error.message);
     }
 }
 
 const verifyLogin = async (req, res) => {
-
     try {
         const email = req.body.email;
         const password = req.body.password;
@@ -134,6 +143,7 @@ const verifyLogin = async (req, res) => {
                     res.render('login', { message: "Please verify your mail" });
                 } else {
                     req.session.user = userData._id;
+                    counts(userData._id)
                     res.redirect('/home');
                 }
             } else {
@@ -144,9 +154,8 @@ const verifyLogin = async (req, res) => {
             res.render('login', { message: "Email or Password incorrect" });
         }
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
-
 }
 
 let orderItems = []
@@ -160,7 +169,6 @@ const resetPasswordMail = async (name, email, token) => {
                 pass: 'abbthwilehhefrmh'
             }
         });
-
         const mailOptions = {
             from: 'muhammedsoubanbi@gmail.com',
             to: email,
@@ -173,28 +181,24 @@ const resetPasswordMail = async (name, email, token) => {
             }
             else {
                 console.log("Email has been sent:-", info.response);
-
             }
         })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 const forgetLoad = async (req, res) => {
-
     try {
         res.render('forget-password');
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const forgetVerify = async (req, res) => {
-
     try {
         const email = req.body.email;
         const userData = await User.findOne({ email: email });
-
         if (userData) {
             if (userData.is_verified === 0) {
                 res.render('forget-password', { message: "Please verify your mail id" })
@@ -208,29 +212,27 @@ const forgetVerify = async (req, res) => {
             res.render('forget-password', { message: "User email is incorrect" })
         }
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const forgetPassword = async (req, res) => {
     try {
+        const category = await Category.find({ d_status: 0 }).lean()
         const user = req.session.user
         const token = req.query.token;
         const tokenData = await User.findOne({ token: token });
-
         if (tokenData) {
-            res.render('verifyOTP', { email: tokenData.email });
+            res.render('verifyOTP', { email: tokenData.email, category });
         } else {
             res.render('404', { message: "Invalid token" });
         }
-
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const resetPassword = async (req, res) => {
-
     try {
         const password = req.body.password;
         const email = req.body.email;
@@ -238,18 +240,12 @@ const resetPassword = async (req, res) => {
         const updatedData = await User.updateOne({ email: email }, { $set: { password: secure_Password, token: '' } });
         res.redirect('/');
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
-
 }
 
 const loadHome = async (req, res) => {
     try {
-        // let count = 0
-        // const cartData = await User.find({ _id: req.session.user })
-        // if (cartData) {
-        //     count = cartData[0].Cart.length
-        // }
         const BannerData = await banner.find().lean()
         const category = await Category.find({ d_status: 0 }).lean()
         const product = await Product.aggregate([
@@ -263,17 +259,15 @@ const loadHome = async (req, res) => {
                 }
             },
         ])
-
         res.render('home', {
             product,
             category,
             BannerData,
-            //  count,
+            count,
             User: req.session.user
         })
-
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
@@ -281,49 +275,50 @@ const shopByCategory = async (req, res) => {
     try {
         const product = await Product.find({ category: req.params.name }).lean()
         const category = await Category.find({ d_status: 0 }).lean()
-        console.log(product);
-        res.render('shop', { product, category, categ: req.params.name })
+        res.render('shop', { product, category, categ: req.params.name, count })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
+
 const LoadShop = async (req, res) => {
     try {
         const product = await Product.find().lean()
         const category = await Category.find({ d_status: 0 }).lean()
-        res.render('shop', { product, category })
+        res.render('shop', { product, category, count })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const productView = async (req, res) => {
     try {
-
         const productData = await Product.findById(req.params.id).lean()
-
         res.render('product-view',
             {
                 productData,
-                User: req.session.user
+                User: req.session.user,
+                count
             })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const profile = async (req, res) => {
     try {
+        const category = await Category.find({ d_status: 0 }).lean()
         const userData = await User.find({ _id: req.session.user }).lean()
         res.render('profile', {
             user: userData,
             Address: userData[0].Address,
-            User: req.session.user
+            User: req.session.user,
+            category,
+            count
         })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
-
 }
 
 const UpdateProfile = async (req, res) => {
@@ -336,53 +331,45 @@ const UpdateProfile = async (req, res) => {
                 mobile: mobile
             }
         })
-
         res.redirect('/profile')
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const DeleteAddress = async (req, res) => {
     try {
-
         const userData = await User.findByIdAndUpdate({ _id: ObjectId(req.session.user) }, {
-
             $pull: {
                 Address: { _id: ObjectId(req.params.id) }
             }
-
         })
         res.redirect('/profile')
-
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
-
 
 const LoadAddAddress = async (req, res) => {
     try {
         res.render('add-address', { User: req.session.user })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
-const AddAddress = async (req, res) => {
 
+const AddAddress = async (req, res) => {
     try {
         const Address = await User.findByIdAndUpdate({ _id: req.session.user },
-
             {
                 $addToSet: {
                     Address: req.body
                 }
-
             })
 
         res.redirect('/profile')
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
@@ -390,11 +377,12 @@ const EditAddress = async (req, res) => {
     try {
         const AddressData = await User.find({ _id: req.session.user }).lean()
         res.render('edit-address', {
-            Address: AddressData[0].Address
+            Address: AddressData[0].Address,
+            count
         })
 
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
 
     }
 }
@@ -408,12 +396,13 @@ const AddToCart = async (req, res) => {
         })
         res.redirect('/cart')
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message)
     }
 }
 
 const LoadCart = async (req, res) => {
     try {
+        const category = await Category.find({ d_status: 0 }).lean()
 
         const cartData = await User.aggregate([
             {
@@ -435,10 +424,12 @@ const LoadCart = async (req, res) => {
         res.render('cart', {
             cartData: CartItems,
             subtotal: subtotal,
-            User: req.session.user
+            User: req.session.user,
+            category,
+            count
         })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message);
     }
 }
 
@@ -450,7 +441,7 @@ const RemoveItemCart = async (req, res) => {
         res.json('Success')
     } catch (error) {
         res.json("Something went wrong")
-        res.render('404',error.message)
+        console.log(error.message);
     }
 }
 
@@ -479,7 +470,6 @@ const Loadcheckout = async (req, res) => {
             subtotal = subtotal + item.price * req.body.quantity[i];
         });
         orderItems = CartItems
-
         res.render('checkout',
             {
                 CartItems,
@@ -491,25 +481,22 @@ const Loadcheckout = async (req, res) => {
                 checkout: checkout[0]
             })
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message);
     }
 }
 
 const orderPlacement = async (req, res) => {
     try {
-
         const userId = req.body.userId;
         const selectedMethod = req.body.selectedMethod;
         const selectedAdress = req.body.selectedAdress;
         const total = req.body.total
-
         if (req.body.selectedMethod == 1) {
             res.json({
                 method: "paypal",
                 total: total,
                 userId: userId,
                 address: selectedAdress,
-
             });
         } else {
             const checkout = await checkoutFunc(
@@ -529,14 +516,17 @@ const orderPlacement = async (req, res) => {
 
 //Paypal Integration
 const paypalCheckout = async (req, res) => {
-    const user = await req.session.user;
+    const category = await Category.find({ d_status: 0 }).lean()
+    const User = await req.session.user;
     const userId = req.params.userId;
     const address = req.params.address;
-
     res.render("paypal-integration", {
         totalAmount: req.params.total,
         userId: userId,
         address: address,
+        category,
+        User,
+        count
     });
 };
 
@@ -546,7 +536,6 @@ const paypalSummary = async (req, res) => {
         const selectedMethod = 1;
         const userId = req.body.userId;
         const selectedAdress = req.body.address;
-        // console.log(selectedAdress);
         const checkout = await checkoutFunc(userId, selectedMethod, selectedAdress);
         if (checkout == "success") res.json("success");
         else res.json("error");
@@ -563,8 +552,7 @@ const checkoutFunc = async (userId, selectedMethod, selectedAdress, total) => {
     const result = Math.random().toString(36).substring(2, 7);
     const id = Math.floor(100000 + Math.random() * 900000);
     const orderId = result + id;
-    const datetime = moment();
-        const date = datetime.format('dddd,MMMM Do YYYY')
+    const datetime = new Date().toISOString();
     let method = "";
 
     const createCart = cart.map(async (item, i) => {
@@ -591,7 +579,7 @@ const checkoutFunc = async (userId, selectedMethod, selectedAdress, total) => {
         userId: userId,
         Products: productDetails,
         orderId: orderId,
-        date: date,
+        date: datetime,
         status: "Pending",
         payment_method: method,
         total: total,
@@ -600,7 +588,6 @@ const checkoutFunc = async (userId, selectedMethod, selectedAdress, total) => {
 
     try {
         const response = await Order.insertMany(data);
-
         orderItems.forEach(async (item, i) => {
             const decrementCount = await Product.updateOne(
                 { _id: item._id },
@@ -608,45 +595,31 @@ const checkoutFunc = async (userId, selectedMethod, selectedAdress, total) => {
             );
         });
         orderItems = []
-
     } catch (error) {
         console.log(error);
-
     }
 
     const clearAll = await User.updateOne(
         { _id: userId },
         { $set: { Cart: [] } }
     );
-
     return "success";
 };
 
 //Orders
 const LoadOrders = async (req, res) => {
-    // const Products =await Order.aggregate([{
-    //     $lookup:{
-    //         from:'products',
-    //         localField:'Products._id',
-    //         foreignField:'_id',
-    //         as:'ProductData'
-    // }
-    // }])
-    const userData = await Order.aggregate([
-        {
-            $match: { userId: ObjectId(req.session.user) },
-        }, {
-            $lookup: { from: 'products', localField: 'Products._id', foreignField: '_id', as: 'prolist' }
-        }
+    const category = await Category.find({ d_status: 0 }).lean()
+    const userData = await Order.aggregate([{ $match: { userId: ObjectId(req.session.user) }, },
+    {
+        $lookup: { from: 'products', localField: 'Products._id', foreignField: '_id', as: 'prolist' }
+    }
     ]).sort({ _id: -1 })
-    
-    const orderData = await Promise.all(userData.map(async (item) => {
 
+    const orderData = await Promise.all(userData.map(async (item) => {
         const Address = await User.findOne({ _id: ObjectId(req.session.user) }, {
             Address: {
                 $elemMatch: { _id: item.addressId }
-            },
-            _id: 0
+            }, _id: 0
         }).lean()
 
         return {
@@ -658,15 +631,16 @@ const LoadOrders = async (req, res) => {
             _id: item._id,
             total: item.total,
             prolist: item.prolist,
-            count: item.prolist.length - 1 
-            
+            count: item.prolist.length - 1
         }
-    })) 
-   
+    }))
+
     res.render("order", {
         orderData,
         User: req.session.user,
-    });                 
+        category,
+        count
+    });
 };
 
 
@@ -683,8 +657,6 @@ const cancelOrder = async (req, res) => {
                 { $inc: { quantity: item.quantity } }
             );
         })
-
-
         res.json("success");
     } else
         res.json("error");
@@ -692,6 +664,7 @@ const cancelOrder = async (req, res) => {
 //Order Details
 const orderDetails = async (req, res) => {
     try {
+        const category = await Category.find({ d_status: 0 }).lean()
         let orderData = await Order.aggregate([{ $match: { orderId: req.params.id } },
         {
             $lookup: {
@@ -715,12 +688,13 @@ const orderDetails = async (req, res) => {
         userData[0].Address.forEach((item) => {
             if (item._id == String(orderData[0]?.addressId))
                 Address = item
-
         })
 
         res.render("orderDetails", {
             orderDetails: orderData,
-            address: Address
+            address: Address,
+            count,
+            category
         });
     } catch (error) {
         console.log(error);
@@ -730,33 +704,23 @@ const orderDetails = async (req, res) => {
 const searchProducts = async (req, res) => {
     try {
         const search = req.body.Search;
-        const product = await Product.aggregate([
-            {
-                $match: {
-                    is_deleted: false,
-                    productname: { $regex: `${search}.*`, $options: "i" },
-                },
+        const product = await Product.aggregate([{
+            $match: {
+                is_deleted: false,
+                productname: { $regex: `${search}.*`, $options: "i" },
             },
-        ]);
-
+        }]);
         const category = await Category.find({ d_status: 0 }).lean();
         res.render("shop", {
             category,
             product,
-            search
+            search,
+            count
         });
     } catch (error) {
         console.log(error);
     }
 };
-
-const invoice = async (req, res) => {
-    try {
-        res.render('invoice')
-    } catch (error) {
-        res.render('404')
-    }
-}
 
 const redeemCoupon = async (req, res) => {
     const user = await User.findOne({ _id: req.session.user }, { _id: 1 });
@@ -779,16 +743,16 @@ const userLogout = async (req, res) => {
         req.session.destroy();
         res.redirect('/');
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message);
     }
 
 }
 
-const Sample = async (req, res) => {
+const LoadOtp = async (req, res) => {
     try {
-        res.render('sample')
+        res.render('otp-page')
     } catch (error) {
-        res.render('404',error.message)
+        console.log(error.message);
     }
 }
 
@@ -796,7 +760,6 @@ module.exports = {
     loadRegister,
     loadLogin,
     insertUser,
-    verifymail,
     verifyLogin,
     forgetPassword,
     forgetVerify,
@@ -821,10 +784,10 @@ module.exports = {
     orderPlacement,
     cancelOrder,
     orderDetails,
-    invoice,
     redeemCoupon,
     LoadShop,
     shopByCategory,
     searchProducts,
-    Sample
+    verifyOTP,
+    LoadOtp
 }
