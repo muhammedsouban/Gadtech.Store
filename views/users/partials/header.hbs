@@ -229,18 +229,19 @@
                     <ul class="header-action-link action-color--white action-hover-color--pink">
 
                         <li>
-                            <a href="/wishlist" >
+                            <a href="/wishlist">
                                 <i class="icon-heart"></i>
                             </a>
                         </li>
                         <li>
-                            <a href="/cart" >
+                            <a href="/cart">
                                 <i class="icon-bag"></i>
-                                {{!-- <span class="item-count">3</span> --}}
-                            </a>
+                                {{#if User}}
+                                <span class="item-count">{{count}}</span>
+                                {{/if}} </a>
                         </li>
                         <li>
-                            <a href="/profile" >
+                            <a href="/profile">
                                 <i class="icon-user"></i>
                                 {{!-- <span class="item-count">3</span> --}}
                             </a>
@@ -297,7 +298,6 @@
 
                     <li>
                         <a href="/cart">Cart</a>
-
                     </li>
 
                     </li>
