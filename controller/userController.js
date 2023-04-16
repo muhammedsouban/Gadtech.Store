@@ -36,7 +36,7 @@ const sendverifyMail = async (name, email, otp, User) => {
             service: "gmail",
             auth: {
                 user: 'muhammedsoubanbi@gmail.com',
-                pass: 'abbthwilehhefrmh'
+                pass: ''
             }
         })
         const mailOptions = {
@@ -166,7 +166,7 @@ const resetPasswordMail = async (name, email, token) => {
             service: "gmail",
             auth: {
                 user: 'muhammedsoubanbi@gmail.com',
-                pass: 'abbthwilehhefrmh'
+                pass: ''
             }
         });
         const mailOptions = {
